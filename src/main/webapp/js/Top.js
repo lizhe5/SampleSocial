@@ -33,8 +33,8 @@
                 },
                 "btap;.nav li.mail": function(e) {
                     brite.display("GoogleMails", "MainScreen-main");
-                }
-            },
+                },
+
 
             docEvents:{
             },
