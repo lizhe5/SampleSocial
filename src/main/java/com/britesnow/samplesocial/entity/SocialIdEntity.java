@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 
@@ -16,6 +18,7 @@ public class SocialIdEntity extends BaseEntity {
     private String token;
     @Column(name="token_date")
     private Date tokenDate;
+    @Enumerated(EnumType.STRING)
     private String service;
     
     public Long getUser_id() {

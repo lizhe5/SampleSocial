@@ -93,7 +93,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <groupId>com.google.gdata</groupId>
             <artifactId>gdata-contacts-3.0</artifactId>
             <version>1.41.5</version>
-            <exclusions><exclusion><artifactId>google-collections</artifactId><groupId>com.google.collections</groupId></exclusion></exclusions>
+            <exclusions>
+				<exclusion>
+					<artifactId>google-collections</artifactId>
+					<groupId>com.google.collections</groupId>
+				</exclusion>
+			</exclusions>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
