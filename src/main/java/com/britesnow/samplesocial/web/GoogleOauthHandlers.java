@@ -2,6 +2,7 @@ package com.britesnow.samplesocial.web;
 
 
 import com.britesnow.samplesocial.dao.SocialIdEntityDao;
+import com.britesnow.samplesocial.entity.Service;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
 import com.britesnow.samplesocial.oauth.OAuthType;
@@ -80,7 +81,7 @@ public class GoogleOauthHandlers {
                 social.setEmail((String) profile.get("email"));
                 social.setUser_id(user.getId());
                 social.setToken(accessToken.getToken());
-                social.setService("google");
+                social.setService(Service.Google);
                 social.setTokenDate(new Date(expireDate));
                 if (newSocial) {
                     socialIdEntityDao.save(social);
