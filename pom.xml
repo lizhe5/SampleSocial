@@ -194,5 +194,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 			<id>Sonatype Snapshot</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>
+		<repository><id>mandubian-mvn</id><url>http://mandubian-mvn.googlecode.com/svn/trunk/mandubian-mvn/repository</url></repository>
 	</repositories>
 </project>
