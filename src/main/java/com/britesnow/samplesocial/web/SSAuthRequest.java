@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.britesnow.samplesocial.dao.SocialIdEntityDao;
 import com.britesnow.samplesocial.dao.UserDao;
+import com.britesnow.samplesocial.entity.Service;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
 import com.britesnow.samplesocial.service.FacebookAuthService;
@@ -140,7 +141,7 @@ public class SSAuthRequest implements AuthRequest {
             s = new SocialIdEntity();
             s.setUser_id(user.getId());
             s.setToken(tokens[0]);
-            s.setService("facebook");
+            s.setService(Service.FaceBook);
             s.setTokenDate(tokenDate);
             socialIdEntityDao.save(s);
         }else{
