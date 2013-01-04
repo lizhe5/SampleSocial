@@ -10,6 +10,7 @@ import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 import com.britesnow.samplesocial.dao.SocialIdEntityDao;
+import com.britesnow.samplesocial.entity.Service;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.google.inject.Inject;
 
@@ -17,6 +18,7 @@ public class FacebookAuthService implements AuthService {
 	@Inject
 	private SocialIdEntityDao socialIdEntityDao;
 
+	private Service serivce = Service.FaceBook;
 	private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
 	private static final Token EMPTY_TOKEN = null;
 	private static String apiKey = "504604412891475";
@@ -25,7 +27,7 @@ public class FacebookAuthService implements AuthService {
 
 	@Override
 	public SocialIdEntity getSocialIdEntity(Long userId) {
-		return socialIdEntityDao.getSocialdentity(userId, "facebook");
+		return socialIdEntityDao.getSocialdentity(userId, serivce);
 	}
 
 	public String getAuthorizationUrl() {
