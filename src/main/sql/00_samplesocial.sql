@@ -1,3 +1,6 @@
+DROP SCHEMA IF EXISTS samplesocial CASCADE;
+
+
 CREATE SCHEMA samplesocial;
 
 -- ............................................................................

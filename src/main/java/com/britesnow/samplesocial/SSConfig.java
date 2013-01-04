@@ -1,8 +1,12 @@
 package com.britesnow.samplesocial;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
+import com.britesnow.snow.web.WebApplicationLifecycle;
+import com.britesnow.snow.web.WebApplicationLifecycleTask;
+import com.britesnow.snow.web.binding.ApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,6 +68,15 @@ public class SSConfig extends AbstractModule {
         DaoRegistry daoRegistry = new DaoRegistry();
         daoRegistry.init(injector, entityClasses);
         return daoRegistry;
+    }
+
+    @Provides
+    @Singleton
+    @Inject
+    public WebApplicationLifecycle providesDaoRegistry(Injector injector, @ApplicationProperties Map config) {
+        WebApplicationLifecycleTask tasks = new WebApplicationLifecycleTask();
+        tasks.init(injector, config);
+        return tasks;
     }
 
 }
