@@ -19,7 +19,7 @@ public class SocialIdEntity extends BaseEntity {
     @Column(name="token_date")
     private Date tokenDate;
     @Enumerated(EnumType.STRING)
-    private String service;
+    private Service service;
     
     public Long getUser_id() {
         return user_id;
@@ -39,10 +39,10 @@ public class SocialIdEntity extends BaseEntity {
     public void setTokenDate(Date tokenDate) {
         this.tokenDate = tokenDate;
     }
-    public String getService() {
+    public Service getService() {
         return service;
     }
-    public void setService(String service) {
+    public void setService(Service service) {
         this.service = service;
     }
     
