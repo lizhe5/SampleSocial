@@ -23,6 +23,9 @@
             		var $li = $(e.currentTarget);
             		$e.find("li").removeClass("active");
             		$li.addClass("active");
+            		if ($li.attr("data-nav")=="facebook") {
+            			app.oauth.authorize('facebook');	
+            		};
             	}
             },
 

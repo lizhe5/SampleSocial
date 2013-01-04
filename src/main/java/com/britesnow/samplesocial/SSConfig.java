@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.britesnow.samplesocial.dao.DaoRegistry;
-import com.britesnow.samplesocial.entity.User;
+import com.britesnow.samplesocial.entity.BaseEntity;
 import com.britesnow.samplesocial.web.SSAuthRequest;
 import com.britesnow.snow.web.auth.AuthRequest;
 import com.britesnow.snow.web.binding.EntityClasses;
@@ -46,7 +46,7 @@ public class SSConfig extends AbstractModule {
     public Class[] provideEntityClasses() {
         Set<Class<?>> entitySet;
         try {
-            entitySet = new ClassesInPackageScanner().findAnnotatedClasses(User.class.getPackage().getName(), javax.persistence.Entity.class);
+            entitySet = new ClassesInPackageScanner().findAnnotatedClasses(BaseEntity.class.getPackage().getName(), javax.persistence.Entity.class);
             Class[] entityClasses = new Class[entitySet.size()];
             entitySet.toArray(entityClasses);
             return entityClasses;

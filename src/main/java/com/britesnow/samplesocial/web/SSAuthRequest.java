@@ -1,9 +1,14 @@
 package com.britesnow.samplesocial.web;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
+import com.britesnow.samplesocial.dao.SocialIdEntityDao;
 import com.britesnow.samplesocial.dao.UserDao;
+import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
+import com.britesnow.samplesocial.service.FacebookAuthService;
 import com.britesnow.snow.util.ObjectUtil;
 import com.britesnow.snow.web.RequestContext;
 import com.britesnow.snow.web.auth.AuthRequest;
@@ -20,7 +25,15 @@ import com.google.inject.Inject;
 public class SSAuthRequest implements AuthRequest {
     @Inject
     private UserDao           userDao;
-
+    @Inject
+    private FacebookAuthService facebookAuthService;
+    
+    @Inject
+    private WebUtil webUtil;
+    
+    @Inject
+    private SocialIdEntityDao socialIdEntityDao;
+    
     @Override
     public AuthToken authRequest(RequestContext rc) {
         // Note: this is not the login logic, the login logic would be
@@ -72,16 +85,16 @@ public class SSAuthRequest implements AuthRequest {
     @WebModelHandler(startsWith = "/logout")
     public void logout(@WebModel Map m, @WebUser User user, RequestContext rc) {
         if (user != null) {
-            //remove cookie
-//            for(Cookie c : rc.getReq().getCookies()){
-//                String userToken = "userToken";
-//                String userId = "userId";
-//                if(userToken.equals(c.getName()) || userId.equals(c.getName())){
-//                    c.setPath("/");
-//                    c.setMaxAge(0);
-//                    rc.getRes().addCookie(c);
-//                }
-//            }
+            // remove cookie
+            // for(Cookie c : rc.getReq().getCookies()){
+            // String userToken = "userToken";
+            // String userId = "userId";
+            // if(userToken.equals(c.getName()) || userId.equals(c.getName())){
+            // c.setPath("/");
+            // c.setMaxAge(0);
+            // rc.getRes().addCookie(c);
+            // }
+            // }
         }
     }
 
@@ -101,6 +114,40 @@ public class SSAuthRequest implements AuthRequest {
             return user;
         }
         return "null";
+    }
+
+    @WebModelHandler(startsWith = "/authorize")
+    public void authorize(@WebParam("service") String service, @WebModel Map m, RequestContext rc) {
+        if ("facebook".equals(service)) {
+            String url = facebookAuthService.getAuthorizationUrl();
+            m.put("url", url);
+        }
+    }
+
+    @WebModelHandler(startsWith = "/oauth_fb_callback")
+    public void fbCallback(@WebParam("code") String code, @WebModel Map m, RequestContext rc) {
+        String[] tokens = facebookAuthService.getAccessToken(code);
+        System.out.println("--->" + tokens[0]);
+        User user =   webUtil.getUser(rc);
+        SocialIdEntity s =   facebookAuthService.getSocialIdEntity(user.getId());
+        String[] strArr =tokens[2].split("&expires=");
+        String expire = strArr[1];
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.SECOND,new Integer(expire));
+        Date tokenDate = cal.getTime();
+        if (s==null) {
+            s = new SocialIdEntity();
+            s.setUser_id(user.getId());
+            s.setToken(tokens[0]);
+            s.setService("facebook");
+            s.setTokenDate(tokenDate);
+            socialIdEntityDao.save(s);
+        }else{
+            s.setTokenDate(tokenDate);
+            s.setToken(tokens[0]);
+            socialIdEntityDao.update(s);
+        }
     }
 
     // --------- Private Helpers --------- //
