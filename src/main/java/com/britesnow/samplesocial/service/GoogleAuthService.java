@@ -1,14 +1,25 @@
 package com.britesnow.samplesocial.service;
 
-import com.britesnow.samplesocial.entity.Service;
+import com.britesnow.samplesocial.dao.SocialIdEntityDao;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+
+@Singleton
 public class GoogleAuthService implements AuthService {
+    @Inject
+    private SocialIdEntityDao socialIdEntityDao;
 
-    private Service serivce = Service.Google;
     @Override
     public SocialIdEntity getSocialIdEntity(Long userId) {
-        // TODO Auto-generated method stub
+        SocialIdEntity socialId = socialIdEntityDao.getSocialdentity(userId, "google");
+        if (socialId != null) {
+            if (socialId.getTokenDate().getTime() > System.currentTimeMillis()) {
+                return socialId;
+            }
+        }
+        //if result is null, need redo auth
         return null;
     }
 

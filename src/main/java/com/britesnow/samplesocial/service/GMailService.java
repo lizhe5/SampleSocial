@@ -1,32 +1,30 @@
 package com.britesnow.samplesocial.service;
 
+import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
 import com.britesnow.samplesocial.mail.OAuth2Authenticator;
-import com.britesnow.snow.web.RequestContext;
-import com.britesnow.snow.web.param.annotation.WebModel;
-import com.britesnow.snow.web.param.annotation.WebParam;
-import com.britesnow.snow.web.param.annotation.WebUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sun.mail.imap.IMAPStore;
-import com.sun.mail.smtp.SMTPTransport;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.FetchProfile;
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.Message;
 import javax.mail.search.FromStringTerm;
 import javax.mail.search.OrTerm;
 import javax.mail.search.SearchTerm;
 import javax.mail.search.SubjectTerm;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Singleton
 public class GMailService {
     @Inject
     OAuth2Authenticator emailAuthenticator;
+
+    @Inject
+    GoogleAuthService authService;
 
     public Message[] listMails(User user, String folderName, int start, int count) throws Exception {
         IMAPStore imap = getImapStore(user);
@@ -126,7 +124,12 @@ public class GMailService {
     }
 
     private IMAPStore getImapStore(User user) throws Exception {
-//        return emailAuthenticator.connectToImap(email, token);
+        if (user != null) {
+            SocialIdEntity social = authService.getSocialIdEntity(user.getId());
+            if (social != null && social.getEmail()!=null) {
+               return  emailAuthenticator.connectToImap(social.getEmail(), social.getToken());
+            }
+        }
         return null;
     }
 

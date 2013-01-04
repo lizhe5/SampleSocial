@@ -27,6 +27,13 @@
             			app.oauth.authorize('facebook');	
             		};
             	}
+            	},
+                "btap;.nav li.contact": function(e) {
+                    brite.display("GoogleContacts", "MainScreen-main");
+                },
+                "btap;.nav li.mail": function(e) {
+                    brite.display("GoogleMails", "MainScreen-main");
+                }
             },
 
             docEvents:{

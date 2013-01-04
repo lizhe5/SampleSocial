@@ -20,6 +20,7 @@ public class SocialIdEntity extends BaseEntity {
     private Date tokenDate;
     @Enumerated(EnumType.STRING)
     private Service service;
+    private String email;
     
     public Long getUser_id() {
         return user_id;
@@ -45,5 +46,12 @@ public class SocialIdEntity extends BaseEntity {
     public void setService(Service service) {
         this.service = service;
     }
-    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

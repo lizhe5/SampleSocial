@@ -1,8 +1,5 @@
 package com.britesnow.samplesocial.service;
 
-import java.io.InputStream;
-import java.util.List;
-
 import com.restfb.BinaryAttachment;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
@@ -10,6 +7,9 @@ import com.restfb.Parameter;
 import com.restfb.types.FacebookType;
 import com.restfb.types.Post;
 import com.restfb.types.User;
+
+import java.io.InputStream;
+import java.util.List;
 
 public class FacebookService {
 	public User getMyInformation(String accessToken) {

@@ -86,16 +86,16 @@ public class SSAuthRequest implements AuthRequest {
     @WebModelHandler(startsWith = "/logout")
     public void logout(@WebModel Map m, @WebUser User user, RequestContext rc) {
         if (user != null) {
-            // remove cookie
-            // for(Cookie c : rc.getReq().getCookies()){
-            // String userToken = "userToken";
-            // String userId = "userId";
-            // if(userToken.equals(c.getName()) || userId.equals(c.getName())){
-            // c.setPath("/");
-            // c.setMaxAge(0);
-            // rc.getRes().addCookie(c);
-            // }
-            // }
+            //remove cookie
+//            for(Cookie c : rc.getReq().getCookies()){
+//                String userToken = "userToken";
+//                String userId = "userId";
+//                if(userToken.equals(c.getName()) || userId.equals(c.getName())){
+//                    c.setPath("/");
+//                    c.setMaxAge(0);
+//                    rc.getRes().addCookie(c);
+//                }
+//            }
         }
     }
 

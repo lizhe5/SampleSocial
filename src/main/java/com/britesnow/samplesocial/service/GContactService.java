@@ -9,6 +9,7 @@ import com.google.gdata.data.contacts.ContactFeed;
 import com.google.gdata.data.contacts.ContactGroupEntry;
 import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.util.ServiceException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
@@ -17,8 +18,10 @@ import java.util.List;
 
 @Singleton
 public class GContactService {
-    private final String BASE_CONTACTS_URL = "https://www.google.com/m8/feeds/contacts/default/full";
+    @Inject
+    GoogleAuthService authService;
 
+    private final String BASE_CONTACTS_URL = "https://www.google.com/m8/feeds/contacts/default/full";
     private final String BASE_GROUP_URL = "https://www.google.com/m8/feeds/groups/default/full";
 
     public ContactGroupEntry createContactGroupEntry(User user, String name) throws Exception {
