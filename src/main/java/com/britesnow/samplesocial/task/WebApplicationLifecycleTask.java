@@ -1,5 +1,6 @@
-package com.britesnow.snow.web;
+package com.britesnow.samplesocial.task;
 
+import com.britesnow.snow.web.WebApplicationLifecycle;
 import com.google.inject.Injector;
 import com.metapossum.utils.scanner.reflect.ClassesInPackageScanner;
 import org.slf4j.Logger;

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.britesnow.snow.web.WebApplicationLifecycle;
-import com.britesnow.snow.web.WebApplicationLifecycleTask;
+import com.britesnow.samplesocial.task.WebApplicationLifecycleTask;
 import com.britesnow.snow.web.binding.ApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

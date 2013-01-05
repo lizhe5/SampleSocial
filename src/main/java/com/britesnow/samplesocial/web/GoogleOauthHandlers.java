@@ -50,12 +50,12 @@ public class GoogleOauthHandlers {
             if (accessToken.getToken() != null) {
                 //get expire date
                 String rawResponse = accessToken.getRawResponse();
-                Pattern expire = Pattern.compile("\"expires_in\"\\s*:\\s*\"(\\d+)\"");
+                Pattern expire = Pattern.compile("\"expires_in\"\\s*:\\s*(\\d+)");
                 Matcher matcher = expire.matcher(rawResponse);
                 long expireDate =-1;
                 if (matcher.find()) {
 
-                    expireDate = System.currentTimeMillis() + (Integer.valueOf(matcher.group(1)) - 100) * 100;
+                    expireDate = System.currentTimeMillis() + (Integer.valueOf(matcher.group(1)) - 100) * 1000;
 
                 }
                 //get email
@@ -88,6 +88,7 @@ public class GoogleOauthHandlers {
                 }else {
                     socialIdEntityDao.update(social);
                 }
+                rc.getRes().sendRedirect(rc.getContextPath());
             } else {
                 googleLogin(rc);
             }

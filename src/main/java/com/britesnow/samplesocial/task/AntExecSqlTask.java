@@ -1,4 +1,4 @@
-package com.britesnow.snow.web;
+package com.britesnow.samplesocial.task;
 
 
 import com.britesnow.snow.web.binding.ApplicationProperties;
@@ -9,7 +9,6 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.util.Map;
 
 public class AntExecSqlTask implements SnowTask {

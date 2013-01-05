@@ -10,7 +10,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
 @Entity
 @Table(name = "social_id_entity")
 @javax.persistence.SequenceGenerator(name = "SEQ_STORE", allocationSize = 1, sequenceName = "social_id_entity_id_seq")
@@ -21,8 +20,9 @@ public class SocialIdEntity extends BaseEntity {
     private Date tokenDate;
     @Enumerated(EnumType.STRING)
     private Service service;
-    @Transient
     private String email;
+    @Transient
+    private boolean isValid = false;
     
     public Long getUser_id() {
         return user_id;
@@ -55,5 +55,13 @@ public class SocialIdEntity extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 }

@@ -55,7 +55,49 @@ var app = app || {};
 		});
 
 		return dfd.promise();
-	}
+	};
+
+    app.getContacts = function (opts) {
+        var params = {
+            method:"Get"
+        };
+        return app.getJsonData(contextPath + "/googleContacts.json", $.extend(params, opts||{}));
+    };
+
+    app.getEmails = function (opts) {
+        var params = {
+            method:"Get"
+        };
+        return app.getJsonData(contextPath + "/getEmails.json", $.extend(params, opts||{}));
+    };
+
+})(jQuery);
+
+//handlebars plugin
+(function($) {
+    //need Handlebars load first for compiled version
+    var compiled;
+    $.fn.render = function(data) {
+        if(!compiled) {
+            compiled = Handlebars.templates||{};
+        }
+        var id = this.selector;
+        if(id.substr(0,1)=='#'){
+            id = id.substr(1);
+        }
+
+        try {
+            if (!compiled[id]) {
+                compiled[id] = Handlebars.compile(this.html());
+            }else{
+                console.log("load from compiled version");
+            }
+            return compiled[id](data);
+        } catch (e) {
+            // obviously, handle this case as you think most appropriate.
+            return "<small>Error: could not find template: " + id + "</small>";
+        }
+    };
 
     Handlebars.registerHelper('check', function (lvalue, operator, rvalue, options) {
 
@@ -96,5 +138,67 @@ var app = app || {};
         }
 
     });
-	
+
+})(jQuery);
+
+(function ($) {
+    //add format to string
+    String.prototype.format = function (args) {
+        if (arguments.length > 0) {
+            var result = this;
+            if (arguments.length == 1 && typeof (args) == "object") {
+                for (var key in args) {
+                    var reg = new RegExp("({" + key + "})", "g");
+                    result = result.replace(reg, args[key]);
+                }
+            }
+            else {
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i] == undefined) {
+                        return "";
+                    }
+                    else {
+                        var reg = new RegExp("({[" + i + "]})", "g");
+                        result = result.replace(reg, arguments[i]);
+                    }
+                }
+            }
+            return result;
+        }
+        else {
+            return this;
+        }
+    };
+    //add format to date
+    Date.prototype.format = function(format)
+    {
+        /*
+         * format="yyyy-MM-dd hh:mm:ss";
+         */
+        var o = {
+            "M+" : this.getMonth() + 1,
+            "d+" : this.getDate(),
+            "h+" : this.getHours(),
+            "m+" : this.getMinutes(),
+            "s+" : this.getSeconds(),
+            "q+" : Math.floor((this.getMonth() + 3) / 3),
+            "S" : this.getMilliseconds()
+        }
+
+        if (/(y+)/.test(format))
+        {
+            format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4
+                - RegExp.$1.length));
+        }
+
+        for (var k in o)
+        {
+            if (new RegExp("(" + k + ")").test(format))
+            {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k]
+                    : ("00" + o[k]).substr(("" + o[k]).length));
+            }
+        }
+        return format;
+    };
 })(jQuery);

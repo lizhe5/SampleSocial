@@ -33,6 +33,7 @@ CREATE TABLE social_id_entity
   token 						character varying(256),
   token_date 					timestamp without time zone,
   service 						character varying(256),
+  email 						character varying(256),
   createdby_id                  bigint,
   created_date                  timestamp without time zone,
   updatedby_id                  bigint,

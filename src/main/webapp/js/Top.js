@@ -23,20 +23,29 @@
             		var $li = $(e.currentTarget);
             		$e.find("li").removeClass("active");
             		$li.addClass("active");
-            		if ($li.attr("data-nav")=="facebook") {
-            			app.oauth.authorize('facebook');	
-            		};
-            		if ($li.attr("data-nav")=="fbfriend") {
-            			alert(1)
-            		};
-            	}
             	},
-                "btap;.nav li.contact": function(e) {
-                    brite.display("GoogleContacts", "MainScreen-main");
+
+                "btap;.nav li[data-nav='facebook']": function(e) {
+                    app.oauth.authorize('facebook');
                 },
-                "btap;.nav li.mail": function(e) {
-                    brite.display("GoogleMails", "MainScreen-main");
+                "btap;.nav li[data-nav='linkedin']": function(e) {
+                    app.oauth.authorize('linkedin');
                 },
+                "btap;.nav li[data-nav='google']": function(e) {
+                    app.oauth.authorize('google');
+                },
+
+                "btap;.nav li[data-nav='contact']": function(e) {
+                    brite.display("GoogleContacts");
+                },
+
+                "btap;.nav li[data-nav='mail']": function(e) {
+                    brite.display("GoogleMails");
+                },
+                "btap;.nav li[data-nav='fbfriend']": function(e) {
+                }
+            },
+
             docEvents:{
             },
 

@@ -1,4 +1,4 @@
-package com.britesnow.snow.web;
+package com.britesnow.samplesocial.task;
 
 
 public interface SnowTask {
