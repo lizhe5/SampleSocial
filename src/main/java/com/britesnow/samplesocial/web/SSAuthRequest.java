@@ -1,13 +1,9 @@
 package com.britesnow.samplesocial.web;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 
 import com.britesnow.samplesocial.dao.SocialIdEntityDao;
 import com.britesnow.samplesocial.dao.UserDao;
-import com.britesnow.samplesocial.entity.Service;
-import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
 import com.britesnow.samplesocial.service.FacebookAuthService;
 import com.britesnow.snow.util.ObjectUtil;
@@ -115,40 +111,6 @@ public class SSAuthRequest implements AuthRequest {
             return user;
         }
         return "null";
-    }
-
-    @WebModelHandler(startsWith = "/authorize")
-    public void authorize(@WebParam("service") String service, @WebModel Map m, RequestContext rc) {
-        if ("facebook".equals(service)) {
-            String url = facebookAuthService.getAuthorizationUrl();
-            m.put("url", url);
-        }
-    }
-
-    @WebModelHandler(startsWith = "/oauth_fb_callback")
-    public void fbCallback(@WebParam("code") String code, @WebModel Map m, RequestContext rc) {
-        String[] tokens = facebookAuthService.getAccessToken(code);
-        System.out.println("--->" + tokens[0]);
-        User user =   webUtil.getUser(rc);
-        SocialIdEntity s =   facebookAuthService.getSocialIdEntity(user.getId());
-        String[] strArr =tokens[2].split("&expires=");
-        String expire = strArr[1];
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.add(Calendar.SECOND,new Integer(expire));
-        Date tokenDate = cal.getTime();
-        if (s==null) {
-            s = new SocialIdEntity();
-            s.setUser_id(user.getId());
-            s.setToken(tokens[0]);
-            s.setService(Service.FaceBook);
-            s.setTokenDate(tokenDate);
-            socialIdEntityDao.save(s);
-        }else{
-            s.setTokenDate(tokenDate);
-            s.setToken(tokens[0]);
-            socialIdEntityDao.update(s);
-        }
     }
 
     // --------- Private Helpers --------- //
