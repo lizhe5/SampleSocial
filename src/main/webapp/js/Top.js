@@ -26,6 +26,9 @@
             		if ($li.attr("data-nav")=="facebook") {
             			app.oauth.authorize('facebook');	
             		};
+            		if ($li.attr("data-nav")=="fbfriend") {
+            			alert(1)
+            		};
             	}
             	},
                 "btap;.nav li.contact": function(e) {
@@ -34,8 +37,6 @@
                 "btap;.nav li.mail": function(e) {
                     brite.display("GoogleMails", "MainScreen-main");
                 },
-
-
             docEvents:{
             },
 

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -20,6 +21,7 @@ public class SocialIdEntity extends BaseEntity {
     private Date tokenDate;
     @Enumerated(EnumType.STRING)
     private Service service;
+    @Transient
     private String email;
     
     public Long getUser_id() {

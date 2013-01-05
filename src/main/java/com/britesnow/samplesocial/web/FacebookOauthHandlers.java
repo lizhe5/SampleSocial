@@ -35,7 +35,8 @@ public class FacebookOauthHandlers {
     public void authorize(@WebParam("service") String service, @WebModel Map m, RequestContext rc) throws IOException {
         if ("facebook".equals(service)) {
             String url = facebookAuthService.getAuthorizationUrl();
-            rc.getRes().sendRedirect(url);
+//            rc.getRes().sendRedirect(url);
+            m.put("url", url);
         }
     }
 
@@ -49,7 +50,7 @@ public class FacebookOauthHandlers {
         String expire = strArr[1];
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.SECOND,new Integer(expire));
+        cal.add(Calendar.SECOND,new Integer(expire)/1000);
         Date tokenDate = cal.getTime();
         if (s==null) {
             s = new SocialIdEntity();
