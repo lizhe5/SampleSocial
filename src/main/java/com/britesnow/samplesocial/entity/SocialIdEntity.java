@@ -3,11 +3,7 @@ package com.britesnow.samplesocial.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -21,6 +17,8 @@ public class SocialIdEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Service service;
     private String email;
+    @Transient
+    private boolean isValid = false;
     
     public Long getUser_id() {
         return user_id;
@@ -53,5 +51,13 @@ public class SocialIdEntity extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 }

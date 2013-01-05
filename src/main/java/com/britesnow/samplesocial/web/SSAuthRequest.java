@@ -1,5 +1,6 @@
 package com.britesnow.samplesocial.web;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -118,10 +119,19 @@ public class SSAuthRequest implements AuthRequest {
     }
 
     @WebModelHandler(startsWith = "/authorize")
-    public void authorize(@WebParam("service") String service, @WebModel Map m, RequestContext rc) {
+    public void authorize(@WebParam("service") String service, @WebModel Map m, RequestContext rc) throws IOException {
         if ("facebook".equals(service)) {
             String url = facebookAuthService.getAuthorizationUrl();
             m.put("url", url);
+        }else {
+            if ("google".equals(service)) {
+                rc.getRes().sendRedirect(rc.getContextPath() + "/" + "googleLogin");
+                return;
+            }
+            if ("linkedin".equals(service)) {
+                rc.getRes().sendRedirect(rc.getContextPath() + "/" + "linkedinLogin");
+                return;
+            }
         }
     }
 

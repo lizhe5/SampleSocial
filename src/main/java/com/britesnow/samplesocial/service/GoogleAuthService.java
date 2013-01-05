@@ -12,13 +12,17 @@ public class GoogleAuthService implements AuthService {
     @Inject
     private SocialIdEntityDao socialIdEntityDao;
 
+
     @Override
     public SocialIdEntity getSocialIdEntity(Long userId) {
         SocialIdEntity socialId = socialIdEntityDao.getSocialdentity(userId, Service.Google);
         if (socialId != null) {
             if (socialId.getTokenDate().getTime() > System.currentTimeMillis()) {
-                return socialId;
+                socialId.setValid(true);
+            }else{
+                socialId.setValid(false);
             }
+            return socialId;
         }
         //if result is null, need redo auth
         return null;

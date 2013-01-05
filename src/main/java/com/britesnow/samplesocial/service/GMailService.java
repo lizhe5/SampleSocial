@@ -42,8 +42,23 @@ public class GMailService {
         if (!inbox.isOpen()) {
             inbox.open(Folder.READ_ONLY);
         }
-
-        return inbox.getMessages(start, count);
+        int total = inbox.getMessageCount();
+        if (total > 0) {
+            if (total - start - count > 0) {
+                start = total - count - start +1;
+            } else {
+                if (total - start > 0) {
+                    start = total - start;
+                    count = total - start;
+                } else {
+                    start = 1;
+                    count = total - start;
+                }
+            }
+            System.out.println(String.format("start %s count %s", start, count));
+            return inbox.getMessages(start, start + count);
+        }
+        return new Message[0];
     }
 
     public Folder[] listFolders(User user) throws Exception {
@@ -105,7 +120,7 @@ public class GMailService {
         return null;
     }
 
-    public void sendMail(User user,String subject,String content, String to) throws Exception {
+    public void sendMail(User user, String subject, String content, String to) throws Exception {
 //        SMTPTransport transport = emailAuthenticator.connectToSmtp(email, token);
 //        Session mailSession = emailAuthenticator.getSMTPSession(token);
 //        Message msg = new MimeMessage(mailSession);
@@ -126,11 +141,11 @@ public class GMailService {
     private IMAPStore getImapStore(User user) throws Exception {
         if (user != null) {
             SocialIdEntity social = authService.getSocialIdEntity(user.getId());
-            if (social != null && social.getEmail()!=null) {
-               return  emailAuthenticator.connectToImap(social.getEmail(), social.getToken());
+            if (social != null && social.getEmail() != null && social.isValid()) {
+                return emailAuthenticator.connectToImap(social.getEmail(), social.getToken());
             }
         }
-        return null;
+        throw new IllegalArgumentException("access token is invalid");
     }
 
 

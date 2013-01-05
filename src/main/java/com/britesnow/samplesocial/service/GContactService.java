@@ -1,5 +1,6 @@
 package com.britesnow.samplesocial.service;
 
+import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
 import com.google.gdata.client.contacts.ContactQuery;
 import com.google.gdata.client.contacts.ContactsService;
@@ -97,6 +98,12 @@ public class GContactService {
     }
 
     private ContactsService getContactsService(User user) {
-         return null;
+        SocialIdEntity social = authService.getSocialIdEntity(user.getId());
+        if (social != null && social.isValid()) {
+            ContactsService service = new ContactsService("Contacts Sample");
+            service.setHeader("Authorization", "Bearer " + social.getToken());
+            return service;
+        }
+        return null;
     }
 }
