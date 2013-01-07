@@ -75,22 +75,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <groupId>com.britesnow</groupId>
       <artifactId>snow</artifactId>
       <version>2.0.0-SNAPSHOT</version>
-      <exclusions>
-          <exclusion>
-              <groupId>com.google.guava</groupId>
-              <artifactId>guava</artifactId>
-          </exclusion>
-      </exclusions>
     </dependency>
-     <dependency>
-         <groupId>com.google.guava</groupId>
-         <artifactId>guava</artifactId>
-         <version>13.0</version>
-     </dependency>
     <!-- /Snow -->
 
     <!-- Google apis -->
-    <dependency>
+<!--    <dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>
       <version>1.12.0-beta</version>
@@ -105,7 +94,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <groupId>com.google.http-client</groupId>
       <artifactId>google-http-client-jackson2</artifactId>
       <version>1.12.0-beta</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>com.google.gdata</groupId>
       <artifactId>gdata-contacts-3.0</artifactId>
