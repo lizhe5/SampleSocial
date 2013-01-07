@@ -18,7 +18,7 @@ public class FacebookAuthService implements AuthService {
     private static final Token  EMPTY_TOKEN            = null;
     private static String       apiKey                 = "504604412891475";
     private static String       apiSecret              = "af295ca74435eca963a781200c79ac67";
-    private static String       callBackUrl            = "http://southgatetestjsppage.com:8080/sb2/oauth_fb_callback/";
+    private static String       callBackUrl            = "http://southgatetestjsppage.com:8080/samplesocial/oauth_fb_callback/";
 
     @Override
     public SocialIdEntity getSocialIdEntity(Long userId) {
