@@ -1,15 +1,5 @@
 package com.britesnow.samplesocial;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
-
-import com.britesnow.snow.web.WebApplicationLifecycle;
-import com.britesnow.samplesocial.task.WebApplicationLifecycleTask;
-import com.britesnow.snow.web.binding.ApplicationProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.britesnow.samplesocial.dao.DaoRegistry;
 import com.britesnow.samplesocial.entity.BaseEntity;
 import com.britesnow.samplesocial.web.SSAuthRequest;
@@ -17,12 +7,13 @@ import com.britesnow.snow.web.auth.AuthRequest;
 import com.britesnow.snow.web.binding.EntityClasses;
 import com.britesnow.snow.web.db.hibernate.HibernateDaoHelper;
 import com.britesnow.snow.web.db.hibernate.HibernateDaoHelperImpl;
-import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
+import com.google.inject.*;
 import com.metapossum.utils.scanner.reflect.ClassesInPackageScanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Set;
 
 
 /**
@@ -70,13 +61,5 @@ public class SSConfig extends AbstractModule {
         return daoRegistry;
     }
 
-    @Provides
-    @Singleton
-    @Inject
-    public WebApplicationLifecycle providesDaoRegistry(Injector injector, @ApplicationProperties Map config) {
-        WebApplicationLifecycleTask tasks = new WebApplicationLifecycleTask();
-        tasks.init(injector, config);
-        return tasks;
-    }
 
 }
