@@ -29,10 +29,13 @@
                     app.oauth.authorize('facebook');
                 },
                 "btap;.nav li[data-nav='linkedin']": function(e) {
-                    app.oauth.authorize('linkedin');
+//                    app.oauth.authorize('linkedin');
+                      window.location.href = contextPath + "/linkedinLogin"
                 },
+
                 "btap;.nav li[data-nav='google']": function(e) {
-                    app.oauth.authorize('google');
+//                    app.oauth.authorize('google');
+                    window.location.href = contextPath + "/googleLogin"
                 },
 
                 "btap;.nav li[data-nav='contact']": function(e) {
