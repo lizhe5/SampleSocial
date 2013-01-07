@@ -43,6 +43,7 @@
                     brite.display("GoogleMails");
                 },
                 "btap;.nav li[data-nav='fbfriend']": function(e) {
+                	 brite.display("FacebookFriends");
                 }
             },
 

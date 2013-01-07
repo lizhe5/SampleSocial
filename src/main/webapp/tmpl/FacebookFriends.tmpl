@@ -1,0 +1,30 @@
+<script id="tmpl-FacebookFriends" type="text/html">
+    <table class="table table-striped table-head-fix">
+	        <thead>
+	        	<th style="width:25%">Pic</th>
+	         <th style="width:25%">Name</th>
+	         <th style="width:25%">HometownName</th>
+	         <th style="width:25%">Email</th>
+	         <th style="width:10%">*</th>
+	        </thead>
+	      </table>
+	  <div class="Friends-tableListContain">
+	  <table class="table table-striped">
+	        <tbody class="listItem">
+	        </tbody>
+	      </table>
+	    </div>
+</script>
+
+<script id="tmpl-Friends-list-rowItem" type="text/html">
+		 	<tr>
+		 		<td><img src="http://graph.facebook.com/{{id}}/picture"/></td>
+	            <td style="width:25%"><span class="contact-name" fbid="{{id}}">{{name}}</span></td>
+	            <td style="width:25%">{{hometownName}}</td>
+	            <td style="width:25%">{{email}}</td>
+	            <td style="width:10%">
+	            	<input type="hidden" name="fbid" value="{{id}}">
+	            	<button class="btn addContactBtn">Add</button>
+	            	</td>
+	          </tr>
+</script>
