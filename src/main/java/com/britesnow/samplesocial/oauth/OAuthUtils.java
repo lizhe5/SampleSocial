@@ -24,15 +24,15 @@ public class OAuthUtils {
         this.appconfig = appConfig;
     }
 
-    public OAuthService getOauthService(OAuthType service) {
-        OAuthService oAuthService = oAuthServiceMap.get(service);
+    public OAuthService getOauthService(OAuthType oAuthType) {
+        OAuthService oAuthService = oAuthServiceMap.get(oAuthType);
         if (oAuthService == null) {
-            String clientId = (String) appconfig.get(service.getKey() + ".client_id");
-            String secret = (String) appconfig.get(service.getKey() + ".secret");
-            String callback = (String) appconfig.get(service.getKey() + ".callback");
-            String scope = (String) appconfig.get(service.getKey() + ".scope");
-            String accessType = (String) appconfig.get(service.getKey() + ".access_type");
-            ServiceBuilder builder = new ServiceBuilder().provider(service.getApiClass()).apiKey(clientId).apiSecret(secret);
+            String clientId = (String) appconfig.get(oAuthType.getKey() + ".client_id");
+            String secret = (String) appconfig.get(oAuthType.getKey() + ".secret");
+            String callback = (String) appconfig.get(oAuthType.getKey() + ".callback");
+            String scope = (String) appconfig.get(oAuthType.getKey() + ".scope");
+            String accessType = (String) appconfig.get(oAuthType.getKey() + ".access_type");
+            ServiceBuilder builder = new ServiceBuilder().provider(oAuthType.getApiClass()).apiKey(clientId).apiSecret(secret);
             builder.grantType(OAuthConstants.GRANT_TYPE_AUTHORIZATION_CODE);
             if (callback != null) {
                 builder.callback(callback);
@@ -44,9 +44,16 @@ public class OAuthUtils {
                 builder.accessType(accessType);
             }
             oAuthService = builder.build();
-            oAuthServiceMap.put(service, oAuthService);
+            oAuthServiceMap.put(oAuthType, oAuthService);
 
         }
         return oAuthService;
+    }
+
+    public String getSecret(OAuthType oAuthType) {
+        return   (String) appconfig.get(oAuthType.getKey() + ".secret");
+    }
+    public String getclientId(OAuthType oAuthType) {
+        return   (String) appconfig.get(oAuthType.getKey() + ".client_id");
     }
 }
