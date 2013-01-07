@@ -1,30 +1,24 @@
 package com.britesnow.samplesocial.web;
 
 
+import java.io.IOException;
+
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
+
 import com.britesnow.samplesocial.dao.SocialIdEntityDao;
 import com.britesnow.samplesocial.entity.Service;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
 import com.britesnow.samplesocial.oauth.OAuthType;
 import com.britesnow.samplesocial.oauth.OAuthUtils;
-import com.britesnow.samplesocial.service.GoogleAuthService;
 import com.britesnow.samplesocial.service.LinkedInAuthService;
-import com.britesnow.snow.util.JsonUtil;
 import com.britesnow.snow.web.RequestContext;
 import com.britesnow.snow.web.handler.annotation.WebModelHandler;
 import com.britesnow.snow.web.param.annotation.WebParam;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.scribe.model.*;
-import org.scribe.oauth.OAuthService;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.scribe.model.OAuthConstants.EMPTY_TOKEN;
 
 @Singleton
 public class LinkedInOauthHandlers {

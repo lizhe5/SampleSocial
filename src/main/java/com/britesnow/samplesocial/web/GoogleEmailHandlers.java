@@ -1,9 +1,20 @@
 package com.britesnow.samplesocial.web;
 
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeUtility;
+
 import com.britesnow.samplesocial.entity.User;
 import com.britesnow.samplesocial.mail.MailInfo;
-import com.britesnow.samplesocial.mail.OAuth2Authenticator;
 import com.britesnow.samplesocial.service.GMailService;
 import com.britesnow.snow.web.RequestContext;
 import com.britesnow.snow.web.handler.annotation.WebActionHandler;
@@ -12,22 +23,6 @@ import com.britesnow.snow.web.param.annotation.WebModel;
 import com.britesnow.snow.web.param.annotation.WebParam;
 import com.britesnow.snow.web.param.annotation.WebUser;
 import com.google.inject.Inject;
-import com.sun.mail.imap.IMAPStore;
-import com.sun.mail.smtp.SMTPTransport;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import javax.mail.search.FromStringTerm;
-import javax.mail.search.OrTerm;
-import javax.mail.search.SearchTerm;
-import javax.mail.search.SubjectTerm;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class GoogleEmailHandlers {

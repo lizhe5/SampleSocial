@@ -1,15 +1,15 @@
 package com.britesnow.samplesocial.oauth;
 
-import com.britesnow.snow.web.binding.ApplicationProperties;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthConstants;
 import org.scribe.oauth.OAuthService;
-import org.scribe.utils.OAuthEncoder;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.britesnow.snow.web.binding.ApplicationProperties;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 @Singleton
 public class OAuthUtils {

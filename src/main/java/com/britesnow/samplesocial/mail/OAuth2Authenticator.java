@@ -15,18 +15,17 @@
 
 package com.britesnow.samplesocial.mail;
 
+import java.security.Provider;
+import java.security.Security;
+import java.util.Properties;
+
+import javax.mail.Session;
+import javax.mail.URLName;
+
 import com.google.inject.Singleton;
 import com.sun.mail.imap.IMAPSSLStore;
 import com.sun.mail.imap.IMAPStore;
 import com.sun.mail.smtp.SMTPTransport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.mail.Session;
-import javax.mail.URLName;
-import java.security.Provider;
-import java.security.Security;
-import java.util.Properties;
 
 
 /**
@@ -37,8 +36,6 @@ import java.util.Properties;
  */
 @Singleton
 public class OAuth2Authenticator {
-    private static Logger log = LoggerFactory.getLogger(OAuth2Authenticator.class);
-
     public static final class OAuth2Provider extends Provider {
         private static final long serialVersionUID = 1L;
 
