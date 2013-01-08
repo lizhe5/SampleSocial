@@ -47,6 +47,7 @@ public class OauthHandlers {
         }else if(service == Service.LinkedIn){
             url = linkedInAuthService.getAuthorizationUrl();
         }
+        rc.getRes().sendRedirect(url);
     }
 
     @WebModelHandler(startsWith = "/oauth_fb_callback")
