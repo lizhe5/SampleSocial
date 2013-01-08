@@ -16,6 +16,7 @@ import javax.mail.internet.MimeUtility;
 import com.britesnow.samplesocial.entity.User;
 import com.britesnow.samplesocial.mail.MailInfo;
 import com.britesnow.samplesocial.service.GMailService;
+import com.britesnow.snow.util.Pair;
 import com.britesnow.snow.web.RequestContext;
 import com.britesnow.snow.web.handler.annotation.WebActionHandler;
 import com.britesnow.snow.web.handler.annotation.WebModelHandler;
@@ -44,16 +45,18 @@ public class GoogleEmailHandlers {
 
     @WebModelHandler(startsWith = "/getEmails")
     public void listEmails(@WebUser User user,
-                           @WebModel Map m, @WebParam("folderName") String folderName) throws Exception {
-        Message[] msgs = gMailService.listMails(user, "inbox", 1, 25);
+                           @WebModel Map m, @WebParam("folderName") String folderName,
+                           @WebParam("pageSize") Integer pageSize, @WebParam("pageIndex") Integer pageIndex) throws Exception {
+        Pair<Integer, Message[]> result = gMailService.listMails(user, "inbox", pageSize*pageIndex, pageSize);
 
         List<MailInfo> mailInfos = new ArrayList<MailInfo>();
 
-        for (Message message : msgs) {
+        for (Message message : result.getSecond()) {
             MailInfo info = buildMailInfo(message);
             mailInfos.add(0, info);
         }
         m.put("result", mailInfos);
+        m.put("result_count", result.getFirst());
     }
 
     @WebModelHandler(startsWith = "/getEmails")

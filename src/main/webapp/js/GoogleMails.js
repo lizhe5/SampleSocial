@@ -1,15 +1,15 @@
 ;
 (function ($) {
 
-    brite.registerView("GoogleMails", {
+    brite.registerView("GoogleMails",{parent:".MainScreen-main"}, {
         create: function (data, config) {
-            var view = this;
-            var emails = app.getEmails();
-            return showEmails.call(view, emails);
+            $(".MainScreen-main .mails-container").remove();
+            return $("#tmpl-GoogleMails").render();
         },
 
         postDisplay: function (data, config) {
-
+            var view = this;
+            showEmails.call(view);
         },
 
         events: {
@@ -21,9 +21,9 @@
         daoEvents: {
         }
     });
-    function showEmails(emails) {
-        return brite.display("DataTable", ".MainScreen-main", {
-            gridData: emails,
+    function showEmails() {
+        return brite.display("DataTable", ".mails-container", {
+            dataProvider: {list: app.getEmails},
             columnDef: [
                 {
                     text: "#",
@@ -57,7 +57,7 @@
             ],
             opts: {
                 htmlIfEmpty: "Not emails found",
-                withPaging: false,
+                withPaging: true,
                 cmdDelete: "DELETE_EMAIL"
             }
         });

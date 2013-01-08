@@ -3,6 +3,7 @@ package com.britesnow.samplesocial.service;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
 import com.britesnow.samplesocial.mail.OAuth2Authenticator;
+import com.britesnow.snow.util.Pair;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sun.mail.imap.IMAPStore;
@@ -26,7 +27,7 @@ public class GMailService {
     @Inject
     GoogleAuthService authService;
 
-    public Message[] listMails(User user, String folderName, int start, int count) throws Exception {
+    public Pair<Integer, Message[]> listMails(User user, String folderName, int start, int count) throws Exception {
         IMAPStore imap = getImapStore(user);
 
         Folder inbox;
@@ -45,7 +46,7 @@ public class GMailService {
         int total = inbox.getMessageCount();
         if (total > 0) {
             if (total - start - count > 0) {
-                start = total - count - start +1;
+                start = total - count - start;
             } else {
                 if (total - start > 0) {
                     start = total - start;
@@ -56,10 +57,11 @@ public class GMailService {
                 }
             }
             System.out.println(String.format("start %s count %s", start, count));
-            return inbox.getMessages(start, start + count);
+            return new Pair<Integer, Message[]>(total, inbox.getMessages(start, start + count));
         }
-        return new Message[0];
+        return new Pair<Integer, Message[]>(0, new Message[0]);
     }
+
 
     public Folder[] listFolders(User user) throws Exception {
         IMAPStore imap = getImapStore(user);

@@ -1,11 +1,14 @@
 ;
 (function ($) {
 
-    brite.registerView("GoogleContacts",{
+    brite.registerView("GoogleContacts",{parent:".MainScreen-main"},{
         create: function (data, config) {
-            console.log("display contacts");
+           return $("#tmpl-GoogleContacts").render();
+        },
+
+        postDisplay: function (data, config) {
             var contacts = app.getContacts(data||{});
-           return brite.display("DataTable", ".MainScreen-main", {
+            brite.display("DataTable", ".contacts-container", {
                 gridData:contacts,
                 rowAttrs: function(obj){ return " etag='{0}'".format(obj.etag)},
                 columnDef:[
@@ -37,10 +40,6 @@
                     cmdDelete: "DELETE_CONTACT"
                 }
             });
-        },
-
-        postDisplay: function (data, config) {
-
         },
 
         events: {
