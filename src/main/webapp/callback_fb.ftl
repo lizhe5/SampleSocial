@@ -29,7 +29,6 @@
   <script type="text/javascript">
 	$(function(){
 		var url = window.location+"";
-		alert(url)
 		params = url.substring(url.indexOf("?")+1, url.length);
 		app.oauth.setToken(params,"facebook").done(function(){
 			window.returnValue = "DONE_TOKEN_SAVE";

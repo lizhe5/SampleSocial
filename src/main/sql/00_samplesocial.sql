@@ -43,3 +43,21 @@ CREATE TABLE social_id_entity
 
 GRANT ALL PRIVILEGES ON social_id_entity to samplesocial;
 GRANT ALL PRIVILEGES ON social_id_entity_id_seq to samplesocial;
+
+CREATE TABLE contact
+(
+  id 							bigserial NOT NULL,
+  name 							character varying(256),
+  fbid 							character varying(256),
+  fbtoken 						character varying(256),
+  email 						character varying(256),
+  hometownname 					character varying(256),
+  createdby_id                  bigint,
+  created_date                  timestamp without time zone,
+  updatedby_id                  bigint,
+  updated_date                  timestamp without time zone,
+  CONSTRAINT contact_pkey PRIMARY KEY (id )
+);
+
+GRANT ALL PRIVILEGES ON contact to samplesocial;
+GRANT ALL PRIVILEGES ON contact_id_seq to samplesocial;

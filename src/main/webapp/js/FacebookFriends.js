@@ -45,39 +45,156 @@
 					},
 					dataType : "json"
 				}).done(function(data) {
-					for (var i=0; i < data.length; i++) {
+					data = [{
+						"about" : "",
+						"bio" : "",
+						"birthday" : "",
+						"birthdayAsDate" : null,
+						"education" : [],
+						"email" : "",
+						"favoriteAthletes" : [],
+						"favoriteTeams" : [],
+						"firstName" : "aa",
+						"gender" : "",
+						"hometown" : null,
+						"hometownName" : "",
+						"id" : "100001542382538",
+						"interestedIn" : [],
+						"languages" : [],
+						"lastName" : "",
+						"link" : "",
+						"locale" : "",
+						"location" : null,
+						"meetingFor" : [],
+						"metadata" : null,
+						"middleName" : "",
+						"name" : "Woofgl Liang",
+						"political" : "",
+						"quotes" : "",
+						"relationshipStatus" : "",
+						"religion" : "",
+						"significantOther" : null,
+						"sports" : [],
+						"thirdPartyId" : "",
+						"timezone" : 0,
+						"type" : "",
+						"updatedTime" : null,
+						"username" : "",
+						"verified" : false,
+						"website" : "",
+						"work" : []
+					}, {
+						"about" : "",
+						"bio" : "",
+						"birthday" : "",
+						"birthdayAsDate" : null,
+						"education" : [],
+						"email" : "",
+						"favoriteAthletes" : [],
+						"favoriteTeams" : [],
+						"firstName" : "bb",
+						"gender" : "",
+						"hometown" : null,
+						"hometownName" : "",
+						"id" : "100002348599426",
+						"interestedIn" : [],
+						"languages" : [],
+						"lastName" : "",
+						"link" : "",
+						"locale" : "",
+						"location" : null,
+						"meetingFor" : [],
+						"metadata" : null,
+						"middleName" : "",
+						"name" : "ËÎÓî¹â222",
+						"political" : "",
+						"quotes" : "",
+						"relationshipStatus" : "",
+						"religion" : "",
+						"significantOther" : null,
+						"sports" : [],
+						"thirdPartyId" : "",
+						"timezone" : 0,
+						"type" : "",
+						"updatedTime" : null,
+						"username" : "",
+						"verified" : false,
+						"website" : "",
+						"work" : []
+					}, {
+						"about" : "",
+						"bio" : "",
+						"birthday" : "",
+						"birthdayAsDate" : null,
+						"education" : [],
+						"email" : "",
+						"favoriteAthletes" : [],
+						"favoriteTeams" : [],
+						"firstName" : "cc",
+						"gender" : "",
+						"hometown" : null,
+						"hometownName" : "",
+						"id" : "100003944136001",
+						"interestedIn" : [],
+						"languages" : [],
+						"lastName" : "",
+						"link" : "",
+						"locale" : "",
+						"location" : null,
+						"meetingFor" : [],
+						"metadata" : null,
+						"middleName" : "",
+						"name" : "Xuwei  Wang",
+						"political" : "",
+						"quotes" : "",
+						"relationshipStatus" : "",
+						"religion" : "",
+						"significantOther" : null,
+						"sports" : [],
+						"thirdPartyId" : "",
+						"timezone" : 0,
+						"type" : "",
+						"updatedTime" : null,
+						"username" : "",
+						"verified" : false,
+						"website" : "",
+						"work" : []
+					}]
+					for (var i = 0; i < data.length; i++) {
 						$items.append(app.render("tmpl-Friends-list-rowItem", data[i]));
 					};
-						$items.find(".addContactBtn").click(function() {
-							var $td = $(this).closest("td");
-							var $inputs = $($td).find("input");
-							var d = {};
-							$inputs.each(function() {
-								var $inp = $(this);
-								d[$inp.attr("name")] = $inp.val();
-							})
-
-							d.groupId = view.groupId;
-							brite.dao("Contact").addContact(d).done(function(po) {
-							})
-						})
-
-						$items.find(".contact-name").each(function() {
-							var fbid = $(this).attr("fbid");
-							var po = {};
-							for (var i = 0; i < data.length; i++) {
-								if (data[i].id == fbid) {
-									po = data[i];
-								};
-							};
-							var html = $("#tmpl-MainContent-ContactDetail").render(po);
-							// $(this).popover({
-							// html : true,
-							// title : 'Detail',
-							// trigger : 'hover',
-							// content : html
-							// })
+					$items.find(".addContactBtn").click(function() {
+						var $td = $(this).closest("td");
+						var $inputs = $($td).find("input");
+						var d = {};
+						$inputs.each(function() {
+							var $inp = $(this);
+							d[$inp.attr("name")] = $inp.val();
 						});
+						$.ajax({
+							type : "POST",
+							url : contextPath + "/addContact.do",
+							data : d,
+							dataType : "json"
+						})
+					})
+
+					$items.find(".contact-name").each(function() {
+						var fbid = $(this).attr("fbid");
+						var po = {};
+						for (var i = 0; i < data.length; i++) {
+							if (data[i].id == fbid) {
+								po = data[i];
+							};
+						};
+						var html = $("#tmpl-MainContent-ContactDetail").render(po);
+						// $(this).popover({
+						// html : true,
+						// title : 'Detail',
+						// trigger : 'hover',
+						// content : html
+						// })
+					});
 				});
 				dfd.resolve();
 				return dfd.promise();
