@@ -9,8 +9,9 @@ import com.britesnow.samplesocial.dao.SocialIdEntityDao;
 import com.britesnow.samplesocial.entity.Service;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
-import com.britesnow.samplesocial.oauth.OAuthUtils;
 import com.britesnow.samplesocial.service.FacebookAuthService;
+import com.britesnow.samplesocial.service.GoogleAuthService;
+import com.britesnow.samplesocial.service.LinkedInAuthService;
 import com.britesnow.snow.web.RequestContext;
 import com.britesnow.snow.web.handler.annotation.WebModelHandler;
 import com.britesnow.snow.web.param.annotation.WebModel;
@@ -19,32 +20,35 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class FacebookOauthHandlers {
+public class OauthHandlers {
     @Inject
     private FacebookAuthService facebookAuthService;
-
     @Inject
-    private WebUtil             webUtil;
-
+    private GoogleAuthService googleAuthService;
     @Inject
-    private OAuthUtils          oAuthUtils;
+    private LinkedInAuthService linkedInAuthService;
+
     @Inject
     private SocialIdEntityDao   socialIdEntityDao;
 
     @WebModelHandler(startsWith = "/authorize")
-    public void authorize(@WebParam("service") String service, @WebModel Map m, RequestContext rc) throws IOException {
-        if ("facebook".equals(service)) {
-            String url = facebookAuthService.getAuthorizationUrl();
-//            rc.getRes().sendRedirect(url);
-            m.put("url", url);
+    public void authorize(@WebModel Map m,@WebParam("service") Service service, RequestContext rc) throws IOException {
+        String url = "";
+        if (service == Service.FaceBook) {
+            url = facebookAuthService.getAuthorizationUrl();
+        }else if(service == Service.Google){
+            url = googleAuthService.getAuthorizationUrl();
+        }else if(service == Service.LinkedIn){
+            url = linkedInAuthService.getAuthorizationUrl();
         }
+        rc.getRes().sendRedirect(url);
     }
 
     @WebModelHandler(startsWith = "/oauth_fb_callback")
     public void fbCallback(@WebParam("code") String code, @WebModel Map m, RequestContext rc) {
         String[] tokens = facebookAuthService.getAccessToken(code);
         System.out.println("--->" + tokens[0]);
-        User user =   webUtil.getUser(rc);
+        User user =   rc.getUser(User.class);
         SocialIdEntity s =   facebookAuthService.getSocialIdEntity(user.getId());
         String[] strArr =tokens[2].split("&expires=");
         String expire = strArr[1];
@@ -65,4 +69,31 @@ public class FacebookOauthHandlers {
             socialIdEntityDao.update(s);
         }
     }
+    
+    @WebModelHandler(startsWith = "/linkedinCallback")
+    public void linkedinCallback(RequestContext rc, @WebParam("oauth_token") String reqToken, @WebParam("oauth_verifier") String code) throws Exception {
+        User user = rc.getUser(User.class);
+        if (user!=null && code != null) {
+            if (linkedInAuthService.updateAccessToken(reqToken, code, user.getId())){
+                rc.getReq().getSession().removeAttribute("reqToken");
+                rc.getRes().sendRedirect(rc.getContextPath());
+            } else {
+                rc.getRes().sendRedirect(linkedInAuthService.getAuthorizationUrl());
+            }
+
+        }
+    }
+    
+    @WebModelHandler(startsWith = "/googleCallback")
+    public void googleCallback(RequestContext rc, @WebParam("code") String code) throws Exception {
+        User user = rc.getUser(User.class);
+        if (user != null && code != null) {
+            if (googleAuthService.updateAccessToken(code, user.getId()))
+                rc.getRes().sendRedirect(rc.getContextPath());
+        } else {
+            rc.getRes().sendRedirect(googleAuthService.getAuthorizationUrl());
+        }
+
+    }
+    
 }

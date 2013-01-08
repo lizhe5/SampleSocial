@@ -23,31 +23,21 @@
             		var $li = $(e.currentTarget);
             		$e.find("li").removeClass("active");
             		$li.addClass("active");
-            	},
-
-                "btap;.nav li[data-nav='facebook']": function(e) {
-                    app.oauth.authorize('facebook');
-                },
-                "btap;.nav li[data-nav='linkedin']": function(e) {
-//                    app.oauth.authorize('linkedin');
-                      window.location.href = contextPath + "/linkedinLogin"
-                },
-
-                "btap;.nav li[data-nav='google']": function(e) {
-//                    app.oauth.authorize('google');
-                    window.location.href = contextPath + "/googleLogin"
-                },
-
-                "btap;.nav li[data-nav='contact']": function(e) {
-                    brite.display("GoogleContacts");
-                },
-
-                "btap;.nav li[data-nav='mail']": function(e) {
-                    brite.display("GoogleMails");
-                },
-                "btap;.nav li[data-nav='fbfriend']": function(e) {
-                	 brite.display("FacebookFriends");
-                }
+            		var menu = $li.attr("data-nav");
+            		if(menu == "facebook"){
+            		  app.oauth.authorize('Facebook');
+            		}else if(menu == "linkedin"){
+            		  app.oauth.authorize('LinkedIn');
+            		}else if(menu == "google"){
+            		  app.oauth.authorize('Google');
+            		}else if(menu == "contact"){
+            		  brite.display("GoogleContacts");
+            		}else if(menu == "mail"){
+            		  brite.display("GoogleMails");
+            		}else if(menu == "fbfriend"){
+            		  brite.display("FacebookFriends");
+            		}
+            	}
             },
 
             docEvents:{
