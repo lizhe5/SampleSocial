@@ -90,7 +90,7 @@ var app = app || {};
             if (!compiled[id]) {
                 compiled[id] = Handlebars.compile(this.html());
             }else{
-                console.log("load from compiled version");
+                //console.log("load from compiled version");
             }
             return compiled[id](data);
         } catch (e) {

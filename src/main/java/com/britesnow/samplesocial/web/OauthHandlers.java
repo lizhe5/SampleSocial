@@ -9,6 +9,7 @@ import com.britesnow.samplesocial.dao.SocialIdEntityDao;
 import com.britesnow.samplesocial.entity.Service;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
+import com.britesnow.samplesocial.oauth.OAuthUtils;
 import com.britesnow.samplesocial.service.FacebookAuthService;
 import com.britesnow.samplesocial.service.GoogleAuthService;
 import com.britesnow.samplesocial.service.LinkedInAuthService;
@@ -29,6 +30,11 @@ public class OauthHandlers {
     private LinkedInAuthService linkedInAuthService;
 
     @Inject
+    private WebUtil             webUtil;
+
+    @Inject
+    private OAuthUtils          oAuthUtils;
+    @Inject
     private SocialIdEntityDao   socialIdEntityDao;
 
     @WebModelHandler(startsWith = "/authorize")
@@ -41,14 +47,13 @@ public class OauthHandlers {
         }else if(service == Service.LinkedIn){
             url = linkedInAuthService.getAuthorizationUrl();
         }
-        rc.getRes().sendRedirect(url);
     }
 
     @WebModelHandler(startsWith = "/oauth_fb_callback")
     public void fbCallback(@WebParam("code") String code, @WebModel Map m, RequestContext rc) {
         String[] tokens = facebookAuthService.getAccessToken(code);
         System.out.println("--->" + tokens[0]);
-        User user =   rc.getUser(User.class);
+        User user =   webUtil.getUser(rc);
         SocialIdEntity s =   facebookAuthService.getSocialIdEntity(user.getId());
         String[] strArr =tokens[2].split("&expires=");
         String expire = strArr[1];
