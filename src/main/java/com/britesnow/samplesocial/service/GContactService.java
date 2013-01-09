@@ -42,10 +42,12 @@ public class GContactService {
     }
 
 
-    public List<ContactEntry> getGroupContactResults(User user,String groupId) throws ServiceException, IOException {
+    public List<ContactEntry> getGroupContactResults(User user,String groupId, int startIndex, int count) throws ServiceException, IOException {
         URL feedUrl = new URL(BASE_CONTACTS_URL);
         ContactQuery myQuery = new ContactQuery(feedUrl);
         myQuery.setStringCustomParameter("group", groupId);
+        myQuery.setStartIndex(startIndex);
+        myQuery.setMaxResults(count);
 //       myQuery.setGroup(String.format(BASE_GROUP_URL + "/" + groupId).replace("full","base"));
 //        myQuery.setGroup("https://www.google.com/m8/feeds/groups/woofgl%40gmail.com/base/6");
         ContactFeed resultFeed = getContactsService(user).query(myQuery, ContactFeed.class);

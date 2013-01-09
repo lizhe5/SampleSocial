@@ -47,7 +47,7 @@ public class GoogleEmailHandlers {
     public void listEmails(@WebUser User user,
                            @WebModel Map m, @WebParam("folderName") String folderName,
                            @WebParam("pageSize") Integer pageSize, @WebParam("pageIndex") Integer pageIndex) throws Exception {
-        Pair<Integer, Message[]> result = gMailService.listMails(user, "inbox", pageSize*pageIndex, pageSize);
+        Pair<Integer, Message[]> result = gMailService.listMails(user, "inbox", pageSize*pageIndex+1, pageSize);
 
         List<MailInfo> mailInfos = new ArrayList<MailInfo>();
 

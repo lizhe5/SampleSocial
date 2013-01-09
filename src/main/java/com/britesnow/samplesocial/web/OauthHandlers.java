@@ -81,7 +81,6 @@ public class OauthHandlers {
         User user = rc.getUser(User.class);
         if (user!=null && code != null) {
             if (linkedInAuthService.updateAccessToken(reqToken, code, user.getId())){
-                rc.getReq().getSession().removeAttribute("reqToken");
                 rc.getRes().sendRedirect(rc.getContextPath());
             } else {
                 rc.getRes().sendRedirect(linkedInAuthService.getAuthorizationUrl());

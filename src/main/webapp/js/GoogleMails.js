@@ -3,7 +3,7 @@
 
     brite.registerView("GoogleMails",{parent:".MainScreen-main"}, {
         create: function (data, config) {
-            $(".MainScreen-main .mails-container").remove();
+            $(".MainScreen-main").empty();
             return $("#tmpl-GoogleMails").render();
         },
 
@@ -30,7 +30,7 @@
                     render: function (obj, idx) {
                         return idx + 1
                     },
-                    attrs: "style='width: 10%'"
+                    attrs: "style='width: 5%'"
                 },
                 {
                     text: "Date",

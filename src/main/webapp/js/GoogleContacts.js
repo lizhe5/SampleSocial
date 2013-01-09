@@ -3,13 +3,13 @@
 
     brite.registerView("GoogleContacts",{parent:".MainScreen-main"},{
         create: function (data, config) {
+            $(".MainScreen-main").empty();
            return $("#tmpl-GoogleContacts").render();
         },
 
         postDisplay: function (data, config) {
-            var contacts = app.getContacts(data||{});
             brite.display("DataTable", ".contacts-container", {
-                gridData:contacts,
+                dataProvider: {list:app.getContacts},
                 rowAttrs: function(obj){ return " etag='{0}'".format(obj.etag)},
                 columnDef:[
                     {
@@ -35,7 +35,7 @@
                 ],
                 opts:{
                     htmlIfEmpty: "Not contacts found",
-                    withPaging: false,
+                    withPaging: true,
                     cmdEdit: "EDIT_CONTACT",
                     cmdDelete: "DELETE_CONTACT"
                 }

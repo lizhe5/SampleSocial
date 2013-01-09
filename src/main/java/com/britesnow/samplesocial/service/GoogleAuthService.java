@@ -5,6 +5,8 @@ import com.britesnow.samplesocial.entity.Service;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.oauth.OAuthType;
 import com.britesnow.samplesocial.oauth.OAuthUtils;
+import com.britesnow.samplesocial.oauth.OauthException;
+import com.britesnow.samplesocial.oauth.OauthTokenExpireException;
 import com.britesnow.snow.util.JsonUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -40,12 +42,12 @@ public class GoogleAuthService implements AuthService {
             if (socialId.getTokenDate().getTime() > System.currentTimeMillis()) {
                 socialId.setValid(true);
             } else {
-                socialId.setValid(false);
+                throw new OauthTokenExpireException(getAuthorizationUrl());
             }
             return socialId;
         }
         //if result is null, need redo auth
-        return null;
+        throw new OauthException(getAuthorizationUrl());
     }
 
     public String getAuthorizationUrl() {
@@ -62,9 +64,7 @@ public class GoogleAuthService implements AuthService {
             Matcher matcher = expire.matcher(rawResponse);
             long expireDate = -1;
             if (matcher.find()) {
-
                 expireDate = System.currentTimeMillis() + (Integer.valueOf(matcher.group(1)) - 100) * 1000;
-
             }
             //get userinfo
             OAuthRequest request = new OAuthRequest(Verb.GET, OAuthUtils.PROFILE_ENDPOINT);
@@ -92,7 +92,7 @@ public class GoogleAuthService implements AuthService {
             }
             return true;
         }
-        return false;
+        throw new OauthException(getAuthorizationUrl());
 
     }
 }
