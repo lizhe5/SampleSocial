@@ -20,4 +20,9 @@ public class ContactDao extends BaseHibernateDao<Contact> {
         List ls = search(hql);
         return ls;
     }
+
+    public void deleteContact(String id) {
+        Contact c = get(new Long(id));
+        delete(c);
+    }
 }

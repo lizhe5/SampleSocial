@@ -40,7 +40,7 @@ public class FacebookContactHandlers {
     }
 
     @WebActionHandler
-    public Object addContact(@WebParam("token") String token, @WebParam("groupId") Long groupId,
+    public Object addFacebookContact(@WebParam("token") String token, @WebParam("groupId") Long groupId,
                             @WebParam("fbid") String fbid) {
         try {
             Contact c = fContactService.addContact(token, groupId, fbid);
@@ -49,5 +49,14 @@ public class FacebookContactHandlers {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @WebActionHandler
+    public void deleteFacebookContact(@WebParam("id") String id) {
+        try {
+            fContactService.deleteContact(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

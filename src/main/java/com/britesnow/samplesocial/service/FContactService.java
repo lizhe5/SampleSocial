@@ -36,4 +36,8 @@ public class FContactService {
         }
         return c;
     }
+
+    public void deleteContact(String id) {
+        contactDao.deleteContact(id);
+    }
 }

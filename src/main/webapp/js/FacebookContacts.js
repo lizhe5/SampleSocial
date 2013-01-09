@@ -43,6 +43,20 @@
 					for (var i = 0; i < data.length; i++) {
 						$items.append(app.render("tmpl-Contact-list-rowItem", data[i]));
 					};
+					
+					$items.find(".deleteContactBtn").click(function() {
+						var id = $(this).attr("data-value");
+						var d = {id:id};
+						$.ajax({
+							type : "POST",
+							url : contextPath + "/deleteFacebookContact.do",
+							data : d,
+							dataType : "json"
+						}).done(function(){
+							view.refreshContactsList.call(view);
+						})
+					})
+					
 					$items.find(".contact-name").each(function() {
 						var fbid = $(this).attr("fbid");
 						var po = {};
@@ -52,12 +66,6 @@
 							};
 						};
 						var html = $("#tmpl-MainContent-ContactDetail").render(po);
-						// $(this).popover({
-						// html : true,
-						// title : 'Detail',
-						// trigger : 'hover',
-						// content : html
-						// })
 					});
 				});
 				dfd.resolve();

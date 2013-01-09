@@ -169,7 +169,7 @@
 						});
 						$.ajax({
 							type : "POST",
-							url : contextPath + "/addContact.do",
+							url : contextPath + "/addFacebookContact.do",
 							data : d,
 							dataType : "json"
 						})
