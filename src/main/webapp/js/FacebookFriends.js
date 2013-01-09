@@ -1,9 +1,5 @@
 ;(function() {
 
-	/**
-	 * View: MainScreen
-	 *
-	 */
 	(function($) {
 		brite.registerView("FacebookFriends", {
 			loadTmpl : true,

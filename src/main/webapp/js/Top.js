@@ -36,6 +36,8 @@
             		  brite.display("GoogleMails");
             		}else if(menu == "fbfriend"){
             		  brite.display("FacebookFriends");
+            		}else if(menu == "fbcontact"){
+            		  brite.display("FacebookContacts");
             		}
             	}
             },

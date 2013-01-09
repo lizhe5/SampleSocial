@@ -2,10 +2,10 @@ package com.britesnow.samplesocial.web;
 
 import java.util.List;
 
-import com.britesnow.samplesocial.dao.ContactDao;
 import com.britesnow.samplesocial.entity.Contact;
 import com.britesnow.samplesocial.entity.SocialIdEntity;
 import com.britesnow.samplesocial.entity.User;
+import com.britesnow.samplesocial.service.FContactService;
 import com.britesnow.samplesocial.service.FacebookAuthService;
 import com.britesnow.samplesocial.service.FacebookService;
 import com.britesnow.snow.web.RequestContext;
@@ -17,9 +17,10 @@ import com.google.inject.Inject;
 
 public class FacebookContactHandlers {
     @Inject
-    private ContactDao      contactDao;
-    @Inject
     private FacebookService     facebookService;
+    @Inject
+    private FContactService     fContactService;
+
     @Inject
     private FacebookAuthService facebookAuthService;
 
@@ -31,26 +32,18 @@ public class FacebookContactHandlers {
         List ls = facebookService.getFriendsByPage(token, limit, offset);
         rc.getWebModel().put("_jsonData", ls);
     }
-    
-    
+
+    @WebModelHandler(startsWith = "/fbContactsList")
+    public void getContacts(@WebUser User user, RequestContext rc) {
+        List ls = fContactService.getContactsByPage(user);
+        rc.getWebModel().put("_jsonData", ls);
+    }
+
     @WebActionHandler
     public Object addContact(@WebParam("token") String token, @WebParam("groupId") Long groupId,
                             @WebParam("fbid") String fbid) {
         try {
-            Contact c = contactDao.getContactByFbid(fbid);
-            if (c == null) {
-                c = new Contact();
-            }
-            c.setFbid(fbid);
-            com.restfb.types.User user = facebookService.getFriendInformation(token, fbid);
-            c.setName(user.getName());
-            c.setEmail(user.getEmail());
-            c.setHometownname(user.getHometownName());
-            if (c.getId() == null) {
-                contactDao.save(c);
-            } else {
-                contactDao.update(c);
-            }
+            Contact c = fContactService.addContact(token, groupId, fbid);
             return c;
         } catch (Exception e) {
             e.printStackTrace();
