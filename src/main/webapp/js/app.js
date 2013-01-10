@@ -25,8 +25,8 @@ var app = app || {};
 	/**
 	 * A method about use ajax to get json data
 	 */
-	app.getJsonData = function(url, params) {
-		var dfd = $.Deferred();
+	app.getJsonData = function(url, params, failcount, pdfd) {
+		var dfd = pdfd||$.Deferred();
 		params = params || {};
 		jQuery.ajax({
 			  type : params.method ? params.method : "Post",
@@ -36,9 +36,22 @@ var app = app || {};
 			  dataType : "json"
 		  }).success(function(data) {
 		  	  if(data && data.AUTH_FAILED){
-		  	  	window.location = contextPath + "/";
-		  	  }
-			  dfd.resolve(data);
+                    //todo callback
+//		  	  	window.location = contextPath + "/" + data.oauthUrl;
+		  	  	//window.location =  data.oauthUrl;
+                var count = failcount||0;
+                if(count<3){
+                    var callback = function () {
+                        count++;
+                        app.getJsonData(url, params, count, dfd);
+                    };
+                    window.showModalDialog(data.oauthUrl);
+                    callback();
+                }
+		  	  }else{
+                   dfd.resolve(data);
+              }
+
 		  }).fail(function(jxhr, arg2) {
 			try {
 				if (jxhr.responseText) {

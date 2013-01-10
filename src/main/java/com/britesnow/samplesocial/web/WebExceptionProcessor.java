@@ -1,21 +1,37 @@
 package com.britesnow.samplesocial.web;
 
 import com.britesnow.samplesocial.oauth.OauthException;
+import com.britesnow.snow.web.Application;
 import com.britesnow.snow.web.RequestContext;
 import com.britesnow.snow.web.exception.WebExceptionContext;
 import com.britesnow.snow.web.exception.annotation.WebExceptionCatcher;
+import com.britesnow.snow.web.handler.WebHandlerType;
+import com.britesnow.snow.web.renderer.JsonRenderer;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 
 @Singleton
 public class WebExceptionProcessor {
-
+    @Inject
+    private JsonRenderer jsonRenderer;
     @WebExceptionCatcher
     public void processOauthException(OauthException e, WebExceptionContext wec, RequestContext rc) throws IOException {
         //log.warn(e.getMessage(), e);
         rc.getWebModel().put("oauthUrl", e.getOauthUrl());
-        rc.getWebModel().put("oauthError", true);
-        rc.getRes().sendRedirect(e.getOauthUrl());
+        rc.getWebModel().put("AUTH_FAILED", true);
+        jsonRenderer.render(rc.getWebModel(), rc.getWriter());
+/*        WebHandlerType type = wec.getWebHandlerContext().getHandlerType();
+        switch (type) {
+            case model:
+                jsonRenderer.render(rc.getWebModel(), rc.getWriter());
+                break;
+            default:
+        }*/
+/*        if (!rc.getRes().isCommitted()) {
+            rc.getRes().sendRedirect(e.getOauthUrl());
+        }*/
+
     }
 }

@@ -32,8 +32,9 @@
 		params = url.substring(url.indexOf("?")+1, url.length);
 		app.oauth.setToken(params,"GG").done(function(){
 			window.returnValue = "DONE_TOKEN_SAVE";
-			window.close();
+
 		});
+        window.close();
 	});
 	</script>
   </body>

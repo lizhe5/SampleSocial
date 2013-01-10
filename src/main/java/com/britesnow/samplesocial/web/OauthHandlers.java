@@ -94,10 +94,14 @@ public class OauthHandlers {
         User user = rc.getUser(User.class);
         if (user != null && code != null) {
             if (googleAuthService.updateAccessToken(code, user.getId()))
-                rc.getRes().sendRedirect(rc.getContextPath());
+                rc.getRes().sendRedirect(rc.getContextPath() + "/callback.ftl");
         } else {
             rc.getRes().sendRedirect(googleAuthService.getAuthorizationUrl());
         }
+
+    }
+    @WebModelHandler(startsWith = "/callback")
+    public void oauthCallback(RequestContext rc) throws Exception {
 
     }
     
