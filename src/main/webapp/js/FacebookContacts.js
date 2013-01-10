@@ -16,11 +16,12 @@
 				view.refreshContactsList.call(view);
 			},
 			events : {
-				"btap;.deleteContactBtn" : function(e) {
+				"btap;.icon-remove" : function(e) {
 					var view = this;
 					var $e = view.$el;
-					var obj = $(e.currentTarget).bEntity();
-					var id = $(this).attr("data-value");
+					
+					var $tr = $(e.currentTarget).closest("tr");
+					var id = $tr.attr("data-obj_id");
 					var d = {
 						id : id
 					};
