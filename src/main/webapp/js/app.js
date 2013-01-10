@@ -71,6 +71,12 @@ var app = app || {};
         return app.getJsonData(contextPath + "/getEmails.json", $.extend(params, opts||{}));
     };
 
+ 	app.getFBContacts = function (opts) {
+        var params = {
+            method:"Get"
+        };
+        return app.getJsonData(contextPath + "/fbContactsList.json", $.extend(params, opts||{}));
+    };
 })(jQuery);
 
 //handlebars plugin

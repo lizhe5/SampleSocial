@@ -16,6 +16,23 @@
 				view.refreshContactsList.call(view);
 			},
 			events : {
+				"btap;.deleteContactBtn" : function(e) {
+					var view = this;
+					var $e = view.$el;
+					var obj = $(e.currentTarget).bEntity();
+					var id = $(this).attr("data-value");
+					var d = {
+						id : id
+					};
+					$.ajax({
+						type : "POST",
+						url : contextPath + "/deleteFacebookContact.do",
+						data : d,
+						dataType : "json"
+					}).done(function() {
+						view.refreshContactsList.call(view);
+					})
+				},
 			},
 
 			docEvents : {
@@ -29,6 +46,47 @@
 				if (!$e) {
 					return;
 				};
+				brite.display("DataTable", ".listItem", {
+					dataProvider : {
+						list : app.getFBContacts
+					},
+					rowAttrs : function(obj) {
+						return " etag='{0}'".format(obj.etag)
+					},
+					columnDef : [{
+						text : "#",
+						render : function(obj, idx) {
+							return idx + 1
+						},
+						attrs : "style='width: 10%'"
+					}, {
+						text : "Name",
+						render : function(obj) {
+							return obj.name
+						},
+						attrs : "style='width: 400px'"
+
+					}, {
+						text : "Email",
+						render : function(obj) {
+							return obj.email
+						},
+						attrs : "style='width: 25%'"
+					}, {
+						text : "Hometown Name",
+						render : function(obj) {
+							return obj.hometownname
+						},
+						attrs : "style='width: 25%'"
+					}],
+					opts : {
+						htmlIfEmpty : "Not contacts found",
+						withPaging : true,
+						cmdEdit : "EDIT_CONTACT",
+						cmdDelete : "DELETE_CONTACT"
+					}
+				});
+
 				var dfd = $.Deferred();
 				var $items = $e.find(".listItem").empty();
 				$.ajax({
@@ -43,20 +101,22 @@
 					for (var i = 0; i < data.length; i++) {
 						$items.append(app.render("tmpl-Contact-list-rowItem", data[i]));
 					};
-					
+
 					$items.find(".deleteContactBtn").click(function() {
 						var id = $(this).attr("data-value");
-						var d = {id:id};
+						var d = {
+							id : id
+						};
 						$.ajax({
 							type : "POST",
 							url : contextPath + "/deleteFacebookContact.do",
 							data : d,
 							dataType : "json"
-						}).done(function(){
+						}).done(function() {
 							view.refreshContactsList.call(view);
 						})
 					})
-					
+
 					$items.find(".contact-name").each(function() {
 						var fbid = $(this).attr("fbid");
 						var po = {};
