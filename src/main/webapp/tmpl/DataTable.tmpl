@@ -24,7 +24,7 @@
         {{#check pageIndex ">" 1 }}
         <span class="navLink prev">Previous</span>
         {{/check}}
-        <span class="pageIndex"> Page {{pageIndex }} of {{numOfPages}} </span>
+        <span class="pageIndex"> Page {{pageIndex }} {{#check numOfPages ">" 1 }}of {{numOfPages}}{{/check}} </span>
         <span class="pageSize">
          <select>
              <option value="5" {{#check pageSize "==" 5}}selected {{/check}}>5</option>
