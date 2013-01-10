@@ -74,7 +74,7 @@ public class GoogleAuthService implements AuthService {
             Map profile = JsonUtil.toMapAndList(response.getBody());
             System.out.println(profile);
             //todo extract userinfo
-            SocialIdEntity social = googleAuthService.getSocialIdEntity(userId);
+            SocialIdEntity social = socialIdEntityDao.getSocialdentity(userId, Service.Google);
             boolean newSocial = false;
             if (social == null) {
                 social = new SocialIdEntity();

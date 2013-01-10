@@ -62,7 +62,7 @@ public class LinkedInAuthService implements AuthService {
             Token reqToken = tokenCache.get(requestToken);
             Token accessToken = oAuthService.getAccessToken(reqToken, verifier);
             if (accessToken.getToken() != null) {
-                SocialIdEntity social = getSocialIdEntity(userId);
+                SocialIdEntity social = socialIdEntityDao.getSocialdentity(userId, Service.LinkedIn);
                 boolean newSocial = false;
                 if (social == null) {
                     social = new SocialIdEntity();
