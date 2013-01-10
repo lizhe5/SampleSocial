@@ -40,7 +40,7 @@ public class FacebookContactHandlers {
                             @WebParam("pageIndex") Integer pageIndex, RequestContext rc) {
         List ls = fContactService.getContactsByPage(user);
         m.put("result", ls);
-        if (ls.size() == pageSize) {
+        if (ls != null && pageSize != null && ls.size() == pageSize) {
             m.put("hasNext", true);
         }
     }
