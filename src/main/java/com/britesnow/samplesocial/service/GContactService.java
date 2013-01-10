@@ -42,10 +42,12 @@ public class GContactService {
     }
 
 
-    public List<ContactEntry> getGroupContactResults(User user,String groupId, int startIndex, int count) throws ServiceException, IOException {
+    public List<ContactEntry> getContactResults(User user, String groupId, int startIndex, int count) throws ServiceException, IOException {
         URL feedUrl = new URL(BASE_CONTACTS_URL);
         ContactQuery myQuery = new ContactQuery(feedUrl);
-        myQuery.setStringCustomParameter("group", groupId);
+        if (groupId != null) {
+            myQuery.setStringCustomParameter("group", groupId);
+        }
         myQuery.setStartIndex(startIndex);
         myQuery.setMaxResults(count);
 //       myQuery.setGroup(String.format(BASE_GROUP_URL + "/" + groupId).replace("full","base"));
@@ -54,11 +56,6 @@ public class GContactService {
         return resultFeed.getEntries();
     }
 
-    public List<ContactEntry> getContactResults(User user) throws IOException, ServiceException {
-        URL feedUrl = new URL(BASE_CONTACTS_URL);
-        ContactFeed resultFeed = getContactsService(user).getFeed(feedUrl, ContactFeed.class);
-        return resultFeed.getEntries();
-    }
 
     public List<ContactGroupEntry> getGroupResults(User user) throws IOException, ServiceException {
         URL feedurUrl = new URL(BASE_GROUP_URL);

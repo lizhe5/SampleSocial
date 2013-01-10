@@ -32,12 +32,8 @@ public class GoogleContactHandlers {
     public void getContacts(@WebUser User user, @WebModel Map m, @WebParam("groupId") String groupId,
                             @WebParam("pageSize") Integer pageSize, @WebParam("pageIndex") Integer pageIndex,
                             RequestContext rc) throws Exception {
-        List<ContactEntry> list;
-        if (groupId == null) {
-            list = gContactService.getContactResults(user);
-        } else {
-            list = gContactService.getGroupContactResults(user, groupId, pageIndex*pageSize+1, pageSize);
-        }
+        List<ContactEntry> list = gContactService.getContactResults(user, groupId, pageIndex * pageSize + 1, pageSize);
+
         List<ContactInfo> infos = new ArrayList<ContactInfo>();
         for (ContactEntry contact : list) {
             infos.add(ContactInfo.from(contact));
