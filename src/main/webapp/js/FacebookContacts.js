@@ -49,7 +49,7 @@
 				};
 				brite.display("DataTable", ".listItem", {
 					dataProvider : {
-						list : app.getFBFriends
+						list : app.getFBContacts
 					},
 					rowAttrs : function(obj) {
 						return " etag='{0}'".format(obj.etag)
@@ -83,7 +83,7 @@
 					opts : {
 						htmlIfEmpty : "Not contacts found",
 						withPaging : true,
-						cmdEdit : "EDIT_CONTACT",
+						withCmdEdit :false,
 						cmdDelete : "DELETE_CONTACT"
 					}
 				});

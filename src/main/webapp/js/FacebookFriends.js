@@ -17,6 +17,22 @@
 				view.refreshFriendsList.call(view);
 			},
 			events : {
+				"click;.icon-edit" : function(e) {
+					var view = this;
+					var $e = view.$el;
+					var $tr = $(e.currentTarget).closest("tr");
+					var id = $tr.attr("data-obj_id");
+					var d = {
+						fbid : id
+					};
+					var $td = $(this).closest("td");
+					$.ajax({
+						type : "POST",
+						url : contextPath + "/addFacebookContact.do",
+						data : d,
+						dataType : "json"
+					})
+				},
 			},
 
 			docEvents : {
@@ -30,7 +46,7 @@
 				if (!$e) {
 					return;
 				};
-				
+
 				brite.display("DataTable", ".listItem", {
 					dataProvider : {
 						list : app.getFBFriends
@@ -44,10 +60,10 @@
 							return idx + 1
 						},
 						attrs : "style='width: 10%'"
-					},{
+					}, {
 						text : "Picture",
 						render : function(obj, idx) {
-							return "<img src='http://graph.facebook.com/"+obj.id+"/picture'/>"
+							return "<img src='http://graph.facebook.com/" + obj.id + "/picture'/>"
 						},
 						attrs : "style='width: 10%'"
 					}, {
@@ -73,26 +89,10 @@
 					opts : {
 						htmlIfEmpty : "Not friend found",
 						withPaging : true,
+						withCmdDelete : false,
 						cmdEdit : "EDIT_CONTACT"
 					}
 				});
-				
-				// $items.find(".addContactBtn").click(function() {
-						// var $td = $(this).closest("td");
-						// var $inputs = $($td).find("input");
-						// var d = {};
-						// $inputs.each(function() {
-							// var $inp = $(this);
-							// d[$inp.attr("name")] = $inp.val();
-						// });
-						// $.ajax({
-							// type : "POST",
-							// url : contextPath + "/addFacebookContact.do",
-							// data : d,
-							// dataType : "json"
-						// })
-					// })
-
 			}
 		});
 	})(jQuery);
