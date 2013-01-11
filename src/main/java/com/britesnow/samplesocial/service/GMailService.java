@@ -47,6 +47,7 @@ public class GMailService {
         if (total > 0) {
             if (total - start - count > 0) {
                 start = total - count - start;
+                count --;
             } else {
                 if (total - start > 0) {
                     start = total - start;

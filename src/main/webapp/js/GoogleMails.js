@@ -16,6 +16,18 @@
         },
 
         docEvents: {
+            "DELETE_EMAIL": function(event, extra){
+                var view = this;
+                if(extra.objId){
+                    app.deleteEmail(extra.objId).done(function(result){
+                        console.log(result);
+                        setTimeout(function(){
+                            showEmails().call(view);
+                        }, 3000)
+
+                    });
+                }
+            }
         },
 
         daoEvents: {
