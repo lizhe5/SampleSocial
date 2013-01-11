@@ -1,2 +1,2 @@
 [@includeTemplate name="/callback_macro.ftl"/]
-+[@callbackTemplate service='Facebook' /]
+[@callbackTemplate service='Google' /]

@@ -1,8 +1,10 @@
+[#macro callbackTemplate service]
+  
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>xpGCWang</title>
+    <title>SampleSocial Callback</title>
     
     <link rel="stylesheet" type="text/css" href="${_r.contextPath}/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="${_r.contextPath}/bootstrap/css/bootstrap-responsive.css" />
@@ -18,24 +20,25 @@
       brite.defaultComponentConfig.loadTmpl = true;
     </script>
     [#-- /Global Initialization --] 
-    	
+      
   </head>
 
   <body>
-   	<div >
-   		login success
-  	</div>
+    <div >
+      login success
+    </div>
   
   <script type="text/javascript">
-	$(function(){
-		var url = window.location+"";
-		params = url.substring(url.indexOf("?")+1, url.length);
-		app.oauth.setToken(params,"GG").done(function(){
-			window.returnValue = "DONE_TOKEN_SAVE";
-
-		});
-        window.close();
-	});
-	</script>
+  $(function(){
+    var service = "${service}";
+    var url = window.location+"";
+    params = url.substring(url.indexOf("?")+1, url.length);
+    setTimeout(function(){
+      window.returnValue = ["DONE_TOKEN_SAVE",service];
+      window.close();
+    },1000);
+  });
+  </script>
   </body>
 </html>
+[/#macro]

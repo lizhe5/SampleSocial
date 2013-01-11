@@ -50,7 +50,7 @@ public class OauthHandlers {
         rc.getRes().sendRedirect(url);
     }
 
-    @WebModelHandler(startsWith = "/oauth_fb_callback")
+    @WebModelHandler(startsWith = "/callback_fb")
     public void fbCallback(@WebParam("code") String code, @WebModel Map m, RequestContext rc) {
         String[] tokens = facebookAuthService.getAccessToken(code);
         System.out.println("--->" + tokens[0]);
@@ -80,12 +80,9 @@ public class OauthHandlers {
     public void linkedinCallback(RequestContext rc, @WebParam("oauth_token") String reqToken, @WebParam("oauth_verifier") String code) throws Exception {
         User user = rc.getUser(User.class);
         if (user!=null && code != null) {
-            if (linkedInAuthService.updateAccessToken(reqToken, code, user.getId())){
-                rc.getRes().sendRedirect(rc.getContextPath());
-            } else {
-                rc.getRes().sendRedirect(linkedInAuthService.getAuthorizationUrl());
-            }
-
+            linkedInAuthService.updateAccessToken(reqToken, code, user.getId());
+        }else{
+            rc.getRes().sendRedirect(linkedInAuthService.getAuthorizationUrl());
         }
     }
     
@@ -93,15 +90,10 @@ public class OauthHandlers {
     public void googleCallback(RequestContext rc, @WebParam("code") String code) throws Exception {
         User user = rc.getUser(User.class);
         if (user != null && code != null) {
-            if (googleAuthService.updateAccessToken(code, user.getId()))
-                rc.getRes().sendRedirect(rc.getContextPath() + "/callback.ftl");
+            googleAuthService.updateAccessToken(code, user.getId());
         } else {
             rc.getRes().sendRedirect(googleAuthService.getAuthorizationUrl());
         }
-
-    }
-    @WebModelHandler(startsWith = "/callback")
-    public void oauthCallback(RequestContext rc) throws Exception {
 
     }
     
