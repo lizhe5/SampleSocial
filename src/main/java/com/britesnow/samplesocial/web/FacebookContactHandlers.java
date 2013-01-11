@@ -52,9 +52,11 @@ public class FacebookContactHandlers {
     }
 
     @WebActionHandler
-    public Object addFacebookContact(@WebParam("token") String token, @WebParam("groupId") Long groupId,
+    public Object addFacebookContact( @WebUser User user, @WebParam("groupId") Long groupId,
                             @WebParam("fbid") String fbid) {
         try {
+            SocialIdEntity e = facebookAuthService.getSocialIdEntity(user.getId());
+            String token = e.getToken();
             Contact c = fContactService.addContact(token, groupId, fbid);
             return c;
         } catch (Exception e) {
