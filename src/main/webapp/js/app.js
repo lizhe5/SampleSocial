@@ -77,11 +77,23 @@ var app = app || {};
         return app.getJsonData(contextPath + "/googleContacts.json", $.extend(params, opts||{}));
     };
 
+    app.deleteContact = function(contactId, etag){
+        var params = {"contactId":contactId, etag: etag};
+        return app.getJsonData(contextPath + "/deleteContact.do", params);
+    };
+
     app.getEmails = function (opts) {
         var params = {
             method:"Get"
         };
         return app.getJsonData(contextPath + "/getEmails.json", $.extend(params, opts||{}));
+    };
+
+    app.deleteEmail=function(id){
+        var params = {id: id};
+        params.method = "Post"
+
+        return app.getJsonData(contextPath + "/deleteEmail.do", params);
     };
 
  	app.getFBContacts = function (opts) {
