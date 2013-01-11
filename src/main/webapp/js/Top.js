@@ -25,7 +25,7 @@
             		$li.addClass("active");
             		var menu = $li.attr("data-nav");
             		if(menu == "facebook"){
-            		  app.oauth.authorize('Facebook');
+            		  app.oauth.authorize('FaceBook');
             		}else if(menu == "linkedin"){
             		  app.oauth.authorize('LinkedIn');
             		}else if(menu == "google"){

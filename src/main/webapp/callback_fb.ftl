@@ -23,14 +23,13 @@
 
   <body>
    	<div >
-   		login success
   	</div>
   
   <script type="text/javascript">
 	$(function(){
 		var url = window.location+"";
 		params = url.substring(url.indexOf("?")+1, url.length);
-		app.oauth.setToken(params,"facebook").done(function(){
+		app.oauth.setToken(params,"FaceBook").done(function(){
 			window.returnValue = "DONE_TOKEN_SAVE";
 			window.close();
 		});
