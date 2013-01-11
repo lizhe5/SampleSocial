@@ -31,6 +31,10 @@
 						url : contextPath + "/addFacebookContact.do",
 						data : d,
 						dataType : "json"
+					}).done(function() {
+						$(".result").show(function() {
+							$(".result").hide(3000);
+						});
 					})
 				},
 			},
