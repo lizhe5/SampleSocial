@@ -24,8 +24,9 @@ import com.britesnow.snow.web.param.annotation.WebModel;
 import com.britesnow.snow.web.param.annotation.WebParam;
 import com.britesnow.snow.web.param.annotation.WebUser;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-
+@Singleton
 public class GoogleEmailHandlers {
     @Inject
     GMailService gMailService;

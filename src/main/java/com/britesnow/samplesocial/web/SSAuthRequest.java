@@ -18,7 +18,9 @@ import com.britesnow.snow.web.param.annotation.WebUser;
 import com.google.common.base.Objects;
 import com.google.common.hash.Hashing;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class SSAuthRequest implements AuthRequest {
     @Inject
     private UserDao           userDao;
