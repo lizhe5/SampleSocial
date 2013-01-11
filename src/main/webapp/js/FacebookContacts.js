@@ -49,7 +49,7 @@
 				};
 				brite.display("DataTable", ".listItem", {
 					dataProvider : {
-						list : app.getFBContacts
+						list : app.getFBFriends
 					},
 					rowAttrs : function(obj) {
 						return " etag='{0}'".format(obj.etag)

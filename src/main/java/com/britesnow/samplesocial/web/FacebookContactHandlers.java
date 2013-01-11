@@ -29,12 +29,16 @@ public class FacebookContactHandlers {
     private FacebookAuthService facebookAuthService;
 
     @WebModelHandler(startsWith = "/fbFriendsList")
-    public void getFacebookFriends(@WebUser User user, @WebParam("limit") Integer limit,
+    public void getFacebookFriends(@WebModel Map m, @WebUser User user, @WebParam("pageSize") Integer pageSize,
+                            @WebParam("pageIndex") Integer pageIndex, @WebParam("limit") Integer limit,
                             @WebParam("offset") Integer offset, RequestContext rc) {
         SocialIdEntity e = facebookAuthService.getSocialIdEntity(user.getId());
         String token = e.getToken();
         List ls = facebookService.getFriendsByPage(token, limit, offset);
-        rc.getWebModel().put("_jsonData", ls);
+        m.put("result", ls);
+        if (ls != null && pageSize != null && ls.size() == pageSize) {
+            m.put("hasNext", true);
+        }
     }
 
     @WebModelHandler(startsWith = "/fbContactsList")

@@ -30,170 +30,68 @@
 				if (!$e) {
 					return;
 				};
-				var dfd = $.Deferred();
-				var $items = $e.find(".listItem").empty();
-				$.ajax({
-					type : "get",
-					url : contextPath + "/fbFriendsList.json",
-					data : {
-						limit : 10,
-						offset : 0
+				
+				brite.display("DataTable", ".listItem", {
+					dataProvider : {
+						list : app.getFBFriends
 					},
-					dataType : "json"
-				}).done(function(data) {
-					data = [{
-						"about" : "",
-						"bio" : "",
-						"birthday" : "",
-						"birthdayAsDate" : null,
-						"education" : [],
-						"email" : "",
-						"favoriteAthletes" : [],
-						"favoriteTeams" : [],
-						"firstName" : "aa",
-						"gender" : "",
-						"hometown" : null,
-						"hometownName" : "",
-						"id" : "100001542382538",
-						"interestedIn" : [],
-						"languages" : [],
-						"lastName" : "",
-						"link" : "",
-						"locale" : "",
-						"location" : null,
-						"meetingFor" : [],
-						"metadata" : null,
-						"middleName" : "",
-						"name" : "Woofgl Liang",
-						"political" : "",
-						"quotes" : "",
-						"relationshipStatus" : "",
-						"religion" : "",
-						"significantOther" : null,
-						"sports" : [],
-						"thirdPartyId" : "",
-						"timezone" : 0,
-						"type" : "",
-						"updatedTime" : null,
-						"username" : "",
-						"verified" : false,
-						"website" : "",
-						"work" : []
+					rowAttrs : function(obj) {
+						return " etag='{0}'".format(obj.etag)
+					},
+					columnDef : [{
+						text : "#",
+						render : function(obj, idx) {
+							return idx + 1
+						},
+						attrs : "style='width: 10%'"
+					},{
+						text : "Picture",
+						render : function(obj, idx) {
+							return "<img src='http://graph.facebook.com/"+obj.id+"/picture'/>"
+						},
+						attrs : "style='width: 10%'"
 					}, {
-						"about" : "",
-						"bio" : "",
-						"birthday" : "",
-						"birthdayAsDate" : null,
-						"education" : [],
-						"email" : "",
-						"favoriteAthletes" : [],
-						"favoriteTeams" : [],
-						"firstName" : "bb",
-						"gender" : "",
-						"hometown" : null,
-						"hometownName" : "",
-						"id" : "100002348599426",
-						"interestedIn" : [],
-						"languages" : [],
-						"lastName" : "",
-						"link" : "",
-						"locale" : "",
-						"location" : null,
-						"meetingFor" : [],
-						"metadata" : null,
-						"middleName" : "",
-						"name" : "ÀŒ”Óπ‚222",
-						"political" : "",
-						"quotes" : "",
-						"relationshipStatus" : "",
-						"religion" : "",
-						"significantOther" : null,
-						"sports" : [],
-						"thirdPartyId" : "",
-						"timezone" : 0,
-						"type" : "",
-						"updatedTime" : null,
-						"username" : "",
-						"verified" : false,
-						"website" : "",
-						"work" : []
-					}, {
-						"about" : "",
-						"bio" : "",
-						"birthday" : "",
-						"birthdayAsDate" : null,
-						"education" : [],
-						"email" : "",
-						"favoriteAthletes" : [],
-						"favoriteTeams" : [],
-						"firstName" : "cc",
-						"gender" : "",
-						"hometown" : null,
-						"hometownName" : "",
-						"id" : "100003944136001",
-						"interestedIn" : [],
-						"languages" : [],
-						"lastName" : "",
-						"link" : "",
-						"locale" : "",
-						"location" : null,
-						"meetingFor" : [],
-						"metadata" : null,
-						"middleName" : "",
-						"name" : "Xuwei  Wang",
-						"political" : "",
-						"quotes" : "",
-						"relationshipStatus" : "",
-						"religion" : "",
-						"significantOther" : null,
-						"sports" : [],
-						"thirdPartyId" : "",
-						"timezone" : 0,
-						"type" : "",
-						"updatedTime" : null,
-						"username" : "",
-						"verified" : false,
-						"website" : "",
-						"work" : []
-					}]
-					for (var i = 0; i < data.length; i++) {
-						$items.append(app.render("tmpl-Friends-list-rowItem", data[i]));
-					};
-					$items.find(".addContactBtn").click(function() {
-						var $td = $(this).closest("td");
-						var $inputs = $($td).find("input");
-						var d = {};
-						$inputs.each(function() {
-							var $inp = $(this);
-							d[$inp.attr("name")] = $inp.val();
-						});
-						$.ajax({
-							type : "POST",
-							url : contextPath + "/addFacebookContact.do",
-							data : d,
-							dataType : "json"
-						})
-					})
+						text : "Name",
+						render : function(obj) {
+							return obj.name
+						},
+						attrs : "style='width: 400px'"
 
-					$items.find(".contact-name").each(function() {
-						var fbid = $(this).attr("fbid");
-						var po = {};
-						for (var i = 0; i < data.length; i++) {
-							if (data[i].id == fbid) {
-								po = data[i];
-							};
-						};
-						var html = $("#tmpl-MainContent-ContactDetail").render(po);
-						// $(this).popover({
-						// html : true,
-						// title : 'Detail',
-						// trigger : 'hover',
-						// content : html
-						// })
-					});
+					}, {
+						text : "Email",
+						render : function(obj) {
+							return obj.email
+						},
+						attrs : "style='width: 25%'"
+					}, {
+						text : "Hometown Name",
+						render : function(obj) {
+							return obj.hometownName
+						},
+						attrs : "style='width: 25%'"
+					}],
+					opts : {
+						htmlIfEmpty : "Not friend found",
+						withPaging : true,
+						cmdEdit : "EDIT_CONTACT"
+					}
 				});
-				dfd.resolve();
-				return dfd.promise();
+				
+				// $items.find(".addContactBtn").click(function() {
+						// var $td = $(this).closest("td");
+						// var $inputs = $($td).find("input");
+						// var d = {};
+						// $inputs.each(function() {
+							// var $inp = $(this);
+							// d[$inp.attr("name")] = $inp.val();
+						// });
+						// $.ajax({
+							// type : "POST",
+							// url : contextPath + "/addFacebookContact.do",
+							// data : d,
+							// dataType : "json"
+						// })
+					// })
 
 			}
 		});
