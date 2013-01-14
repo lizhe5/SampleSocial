@@ -51,8 +51,17 @@ public class FacebookContactHandlers {
         }
     }
 
+    @WebModelHandler(startsWith = "/getFacebookFriendDetail")
+    public void getFacebookFriendDetail(@WebModel Map m, @WebUser User user, @WebParam("fbid") String fbid,
+                            RequestContext rc) {
+        SocialIdEntity e = facebookAuthService.getSocialIdEntity(user.getId());
+        String token = e.getToken();
+        com.restfb.types.User friend = (com.restfb.types.User) facebookService.getFriendInformation(token, fbid);
+        m.put("result", friend);
+    }
+
     @WebActionHandler
-    public Object addFacebookContact( @WebUser User user, @WebParam("groupId") Long groupId,
+    public Object addFacebookContact(@WebUser User user, @WebParam("groupId") Long groupId,
                             @WebParam("fbid") String fbid) {
         try {
             SocialIdEntity e = facebookAuthService.getSocialIdEntity(user.getId());
@@ -73,4 +82,5 @@ public class FacebookContactHandlers {
             e.printStackTrace();
         }
     }
+
 }

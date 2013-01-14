@@ -25,7 +25,6 @@
 					var d = {
 						fbid : id
 					};
-					var $td = $(this).closest("td");
 					$.ajax({
 						type : "POST",
 						url : contextPath + "/addFacebookContact.do",
@@ -37,6 +36,30 @@
 						});
 					})
 				},
+				"click;img" : function(e) {
+					var view = this;
+					var $e = view.$el;
+					var $tr = $(e.currentTarget).closest("tr");
+					var id = $tr.attr("data-obj_id");
+					var d = {
+						fbid : id
+					};
+					app.getFacebookFriendDetail(d).done(function(data) {
+						console.log(data)
+						var $html = app.render("tmpl-FacebookFriend-detail", data.result);
+						console.log($html);
+						$(".Friend-detail").find(".modal-body").html($html);
+						$(".Friend-detail").show();
+						
+					})
+				},
+				"click;.close" : function(e) {
+					var view = this;
+					var $e = view.$el;
+					var $div = $(e.currentTarget).closest(".modal");
+					$div.hide();
+				},
+				
 			},
 
 			docEvents : {

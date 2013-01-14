@@ -109,6 +109,13 @@ var app = app || {};
         };
         return app.getJsonData(contextPath + "/fbFriendsList.json", $.extend(params, opts||{}));
     };
+    
+    app.getFacebookFriendDetail = function (opts) {
+        var params = {
+            method:"Get"
+        };
+        return app.getJsonData(contextPath + "/getFacebookFriendDetail.json", $.extend(params, opts||{}));
+    };
 })(jQuery);
 
 //handlebars plugin
